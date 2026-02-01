@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Local Loop</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="logo">Local Loop</div>
+    <nav class="nav">
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="index.html">Events</a>
+    </nav>
+  </header>
+
+  <!-- Layout -->
+  <div class="layout">
+    <aside class="sidebar"></aside>
+
+    <main class="content">
+      <div id="output" class="event-grid"></div>
+    </main>
+  </div>
+
+  <!-- Floating Add Button -->
+  <button id="openModal" class="fab">+</button>
+
+  <!-- Modal -->
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal">
+      <input type="text" id="name" placeholder="Name">
+      <input type="number" id="time" placeholder="Time (in unix format)">
+      <input type="text" id="description" placeholder="Description">
+      <input type="text" id="company" placeholder="Company">
+      <input type="text" id="access" placeholder="Access Code">
+
+      <div class="modal-actions">
+        <button id="send">Send</button>
+        <button id="closeModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="accessModal" class="accessModal hidden">
+    <span> Err: Invalid Access Code |</span>
+    <button id="closeAccess">Close</button>
+  </div>
+
+  <script src="/javascript/scripts.js"></script>
+</body>
+</html>
