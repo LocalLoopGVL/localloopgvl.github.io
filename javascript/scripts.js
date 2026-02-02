@@ -95,11 +95,11 @@ sendBtn.addEventListener('click', () => {
   }
 
   const data = {
-    name: document.getElementById('name').value || 'test',
-    time: Number(unixTime) || 1711920000,
-    description: document.getElementById('description').value || 'test',
-    company: document.getElementById('company').value || 'test',
-    access: document.getElementById('access').value || '030408'
+    name: document.getElementById('name').value,
+    time: Number(unixTime),
+    description: document.getElementById('description').value,
+    company: document.getElementById('company').value,
+    access: document.getElementById('access').value
   };
 
   socket.send(JSON.stringify(data));
@@ -122,9 +122,15 @@ socket.onerror = (error) => {
   errormsgEl.classList.add('error-msg');
   errormsgEl.innerText = "Error details: " + error.message;
 
+  const errorbtnEl = document.createElement('button');
+  errorbtnEl.classList.add('error-btn');
+  errorbtnEl.onclick = refreshPage;
+  errorbtnEl.innerText = "Refresh Page";
+
   box.appendChild(errorEl);
   box.appendChild(errorinfoEl);
   box.appendChild(errormsgEl);
+  box.appendChild(errorbtnEl);
   output.appendChild(box);
 };
 
@@ -142,3 +148,7 @@ function checkDeviceOverlay() {
 
 window.addEventListener('resize', checkDeviceOverlay);
 checkDeviceOverlay();
+
+function refreshPage() {
+  location.reload();
+}
