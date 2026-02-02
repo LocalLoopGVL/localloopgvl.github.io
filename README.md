@@ -1,2 +1,2 @@
-# localloopgvl.github.io
-Local Loop Website
+# Local Loop Greenville
+Welcome to Local Loop!

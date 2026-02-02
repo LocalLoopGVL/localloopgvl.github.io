@@ -116,7 +116,7 @@ socket.onerror = (error) => {
 
   const errorinfoEl = document.createElement('div');
   errorinfoEl.classList.add('error-info');
-  errorinfoEl.innerText = "Something went wrong with the WebSocket connection. Try reloading the page. If the problem persists, we may be down for maintenence.";
+  errorinfoEl.innerText = "Something went wrong with the WebSocket connection. Try reloading the page. If the problem persists, we may be down for maintenance.";
 
   const errormsgEl = document.createElement('div');
   errormsgEl.classList.add('error-msg');
@@ -127,3 +127,11 @@ socket.onerror = (error) => {
   box.appendChild(errormsgEl);
   output.appendChild(box);
 };
+
+// Device overlay for mobile users
+
+const deviceOverlay = document.getElementById('deviceOverlay');
+
+if (!navigator.userAgentData.mobile) {
+  deviceOverlay.classList.add('hidden');
+}
