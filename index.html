@@ -4,29 +4,40 @@
   <meta charset="UTF-8">
   <title>Local Loop</title>
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Device Overlay -->
   <div id="deviceOverlay" class="device-overlay hidden">
     <div class="device-message">
-      <span> We are currently working hard on a mobile UI. Please check back later! </span>
+      <span> We are currently working hard on a mobile/micro UI. Please check back later! </span>
     </div>
   </div>
 
   <!-- Top Bar -->
   <header class="sidebar">
-    <div class="logo">Ꮺ</div>
+    <div class="logo">
+      <span>Local Loop</span>
+    </div>
     <nav class="nav">
-      <a href="index.html">🏠︎</a>
-      <a href="about.html">🛈</a>
-      <a href="contact.html">✉</a>
+      <a href="account.html"><div></div>Account</a>
+      <a href="settings.html"><div></div>Settings</a>
     </nav>
-    <div class="settings">🌣</div>
+    <nav class="nav">
+      <a class="active"><div></div>Home</a>
+      <a href="about.html"><div></div>Info</a>
+      <a href="contact.html"><div></div>Contact</a>
+    </nav>
   </header>
 
   <!-- Layout -->
   <div class="layout">
     <main class="content">
+      <div class="page">
+        <span> Discover </span>
+      </div>
       <div id="output" class="event-grid"></div>
       <!-- Floating Add Button -->
       <button id="openModal" class="fab">+</button>

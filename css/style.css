@@ -2,95 +2,129 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Google Sans Flex", sans-serif;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
 
 body {
   height: 100vh;
   display: flex;
-  background: #191718;
+  background: #f7f7f7;
   color: white;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow: hidden;
 }
 
 /* Sidebar */
 .sidebar {
-  width: 100px;
-  background: #191718;
+  width: 350px;
+  background: #f7f7f7;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 25px;
-  min-height: 100vh;
+  gap: 15px;
+  padding: 85px 20px;
+  height: 100vh;
+  border-right: #dedede 1px solid;
+  overflow: auto;
 }
 
-.sidebar .logo {
-  display: fixed;
-  top: 0px;
-  width: 50px;
-  height: 50px;
-  background: #2c2728;
-  border-radius: 15px;
-  text-align: center;
-  line-height: 50px;
-  font-size: 20px;
-  color: #ca6974;
+.logo {
+  position: fixed;
+  margin: -85px -20px;
+  z-index: 1;
+  height: 85px;
+  width: 349px;
+  background: #f7f7f780;
+  padding-top: 40px;
+  padding-left: 20px;
+  backdrop-filter: blur(20px);
 }
 
-.sidebar .settings {
-  display: fixed;
-  top: 0px;
-  width: 50px;
-  height: 50px;
-  background: #2c2728;
-  border-radius: 15px;
-  text-align: center;
-  line-height: 50px;
-  font-size: 30px;
-  color: #ca6974;
+.logo span {
+  font-size: 25px;
+  color: #000;
 }
 
 .nav {
-  display: flex;
+  display: block;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 15px;
+  overflow-y: hidden;
+  height: fit-content;
+  flex-shrink: 0;
 }
 
 .nav a {
-  display: block;
-  width: 50px;
-  height: 50px;
-  border-radius: 15px;
-  text-align: center;
-  line-height: 50px;
-  font-size: 20px;
-  color: #444040;
+  display: flex;
+  width: 100%;
+  padding: 15px;
+  font-size: 15px;
+  line-height: 25px;
+  color: #000;
   text-decoration: none;
   cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+
+a.active {
+  background: #ebebeb;
+}
+
+a.active:hover {
+  background: #dcdcdc!important;
 }
 
 .nav a:hover {
-  background: #ca6974;
-  color: white;
+  background: #f0f0f0;
+}
+
+.nav a:active {
+  background: #e1e1e1;
 }
 
 /* Layout */
 .layout {
   flex: 1;
   display: flex;
-  padding: 10px 0px;
   overflow-y: auto;
 }
 
 .content {
   position: relative;
-  background: #2c2728;
+  background: #f7f7f7;
   color: #111;
-  border-radius: 20px;
-  padding: 20px;
-  width: calc(100% - 300px);
+  padding: 85px 50px;
   min-height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+.page {
+  position: fixed;
+  margin: -85px -50px;
+  z-index: 1;
+  height: 85px;
+  width: calc(100% - 350px);
+  text-align: center;
+  background: #f7f7f780;
+  padding-top: 40px;
+  backdrop-filter: blur(20px);
+}
+
+.page span {
+  font-size: 25px;
+  color: #000;
 }
 
 /* Event Grid */
@@ -102,7 +136,7 @@ body {
 
 @media (max-width: 900px) {
   .event-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
 }
 
@@ -114,9 +148,9 @@ body {
 
 /* Floating Action Button */
 .fab {
-  position: absolute;
+  position: fixed;
+  right: 0px;
   bottom: 20px;
-  right: 20px;
   width: 55px;
   height: 55px;
   border-radius: 50%;
@@ -136,6 +170,7 @@ body {
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(10px);
+  z-index: 2;
 }
 
 .modal {
@@ -166,13 +201,13 @@ body {
   padding: 8px 12px;
   border: none;
   color: white;
-  background-color: #ca6974;
+  background-color: #4980f7;
   border-radius: 8px;
   cursor: pointer;
 }
 
 .modal-actions button:hover {
-  background-color: #df929b;
+  background-color: #3e6fd6;
 }
 
 .accessModal {
@@ -201,13 +236,13 @@ body {
 /* Event Card Styles */
 
 .event-box {
-  border-radius: 12px;
-  padding: 12px;
-  background-color: #464040;
+  border-radius: 15px;
+  padding: 15px;
+  background-color: #fff;
   word-wrap: break-word;
   opacity: 0;
   animation: fadeIn 1s ease forwards;
-  color: white;
+  color: #000;
 }
 
 @keyframes fadeIn {
@@ -242,15 +277,16 @@ body {
 .event-interest {
   margin-top: 10px;
   padding: 8px 12px;
-  background-color: #ca6974;
+  background-color: #4980f7;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: 100%;
 }
 
 .event-interest:hover {
-  background-color: #df929b;
+  background-color: #3e6fd6;
 }
 
 .error-box {
@@ -263,6 +299,7 @@ body {
   text-align: center;
   width: 100%;
   color: white;
+  animation: fadeIn 1s ease forwards;
 }
 
 .error {
@@ -287,19 +324,20 @@ body {
 .device-overlay {
   position: fixed;
   inset: 0;
-  background: #00000050;
+  background: #00000060;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px);
-  z-index: 1;
+  backdrop-filter: blur(20px);
+  z-index: 3;
 }
 
 .device-message {
   background: white;
+  color: #000;
   font-size: 30px;
   padding: 20px;
   width: 80%;
-  border-radius: 10px;
+  border-radius: 20px;
   text-align: center;
 }

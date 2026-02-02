@@ -7,7 +7,7 @@ const accessModal = document.getElementById('accessModal');
 const closeAccessBtn = document.getElementById('closeAccess');
 const sendBtn = document.getElementById('send');
 
-const socket = new WebSocket('https://localloop.loca.lt');
+const socket = new WebSocket('https://carly-vaned-christiana.ngrok-free.dev');
 
 openModalBtn.addEventListener('click', () => {
   modalOverlay.classList.remove('hidden');
@@ -132,6 +132,13 @@ socket.onerror = (error) => {
 
 const deviceOverlay = document.getElementById('deviceOverlay');
 
-if (navigator.userAgentData.mobile) {
-  deviceOverlay.classList.remove('hidden');
+function checkDeviceOverlay() {
+  if (/Mobi/i.test(navigator.userAgent) || window.innerWidth < 720) {
+    deviceOverlay.classList.remove('hidden');
+  } else {
+    deviceOverlay.classList.add('hidden');
+  }
 }
+
+window.addEventListener('resize', checkDeviceOverlay);
+checkDeviceOverlay();
