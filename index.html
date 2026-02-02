@@ -7,33 +7,31 @@
 </head>
 <body>
   <!-- Device Overlay -->
-  <div id="deviceOverlay" class="device-overlay">
+  <div id="deviceOverlay" class="device-overlay hidden">
     <div class="device-message">
       <span> We are currently working hard on a mobile UI. Please check back later! </span>
     </div>
   </div>
 
   <!-- Top Bar -->
-  <header class="topbar">
-    <div class="logo">Local Loop</div>
+  <header class="sidebar">
+    <div class="logo">Ꮺ</div>
     <nav class="nav">
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="index.html">Events</a>
+      <a href="index.html">🏠︎</a>
+      <a href="about.html">🛈</a>
+      <a href="contact.html">✉</a>
     </nav>
+    <div class="settings">🌣</div>
   </header>
 
   <!-- Layout -->
   <div class="layout">
-    <aside class="sidebar"></aside>
-
     <main class="content">
       <div id="output" class="event-grid"></div>
+      <!-- Floating Add Button -->
+      <button id="openModal" class="fab">+</button>
     </main>
   </div>
-
-  <!-- Floating Add Button -->
-  <button id="openModal" class="fab">+</button>
 
   <!-- Modal -->
   <div id="modalOverlay" class="modal-overlay hidden">
@@ -45,8 +43,8 @@
       <input type="text" id="access" placeholder="Access Code">
 
       <div class="modal-actions">
-        <button id="send">Send</button>
         <button id="closeModal">Close</button>
+        <button id="send">Send</button>
       </div>
     </div>
   </div>

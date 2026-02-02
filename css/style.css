@@ -8,63 +8,98 @@
 body {
   height: 100vh;
   display: flex;
-  flex-direction: column;
+  background: #191718;
+  color: white;
 }
 
-/* Top Bar */
-.topbar {
-  height: 60px;
-  background: #111;
-  color: white;
+/* Sidebar */
+.sidebar {
+  width: 100px;
+  background: #191718;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 25px;
+  min-height: 100vh;
 }
 
-.logo {
+.sidebar .logo {
+  display: fixed;
+  top: 0px;
+  width: 50px;
+  height: 50px;
+  background: #2c2728;
+  border-radius: 15px;
+  text-align: center;
+  line-height: 50px;
   font-size: 20px;
-  font-weight: bold;
+  color: #ca6974;
+}
+
+.sidebar .settings {
+  display: fixed;
+  top: 0px;
+  width: 50px;
+  height: 50px;
+  background: #2c2728;
+  border-radius: 15px;
+  text-align: center;
+  line-height: 50px;
+  font-size: 30px;
+  color: #ca6974;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .nav a {
-  margin-left: 20px;
-  cursor: pointer;
-  opacity: 0.8;
-  color: white;
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  text-align: center;
+  line-height: 50px;
+  font-size: 20px;
+  color: #444040;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .nav a:hover {
-  opacity: 1;
+  background: #ca6974;
+  color: white;
 }
 
 /* Layout */
 .layout {
   flex: 1;
   display: flex;
-}
-
-.sidebar {
-  width: 220px;
-  background: #f2f2f2;
-  border-right: 1px solid #ddd;
-}
-
-.content {
-  flex: 1;
-  padding: 20px;
+  padding: 10px 0px;
   overflow-y: auto;
 }
 
-/* Grid container */
+.content {
+  position: relative;
+  background: #2c2728;
+  color: #111;
+  border-radius: 20px;
+  padding: 20px;
+  width: calc(100% - 300px);
+  min-height: 100%;
+}
+
+/* Event Grid */
 .event-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px; /* space between cards */
+  gap: 20px;
 }
 
-/* Optional: responsive tweaks */
 @media (max-width: 900px) {
   .event-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -79,15 +114,15 @@ body {
 
 /* Floating Action Button */
 .fab {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
   width: 55px;
   height: 55px;
   border-radius: 50%;
   font-size: 32px;
   border: none;
-  background: #111;
+  background: #191718;
   color: white;
   cursor: pointer;
 }
@@ -96,7 +131,7 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: #00000050;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,19 +139,22 @@ body {
 }
 
 .modal {
-  background: white;
-  padding: 20px;
+  background: #464040;
+  padding: 15px;
   width: 300px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  border-radius: 10px;
+  gap: 15px;
+  border-radius: 20px;
 }
 
 .modal input {
   padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #2c2728;
+  border: none;
+  color: white;
+  outline: none;
 }
 
 .modal-actions {
@@ -126,14 +164,19 @@ body {
 
 .modal-actions button {
   padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: none;
+  color: white;
+  background-color: #ca6974;
+  border-radius: 8px;
   cursor: pointer;
 }
 
+.modal-actions button:hover {
+  background-color: #df929b;
+}
+
 .accessModal {
-  background:#ffebeb;
-  border: 1px solid #dbc0c0;
+  background:#464040;
   position: fixed;
   bottom: 5px;
   left: 5px;
@@ -158,14 +201,13 @@ body {
 /* Event Card Styles */
 
 .event-box {
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 12px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background-color: #464040;
   word-wrap: break-word;
   opacity: 0;
   animation: fadeIn 1s ease forwards;
+  color: white;
 }
 
 @keyframes fadeIn {
@@ -182,7 +224,7 @@ body {
 
 .event-date {
   font-size: 14px;
-  color: #555;
+  opacity: 0.4;
   margin-bottom: 6px;
 }
 
@@ -194,13 +236,13 @@ body {
 .event-company {
   font-size: 14px;
   font-style: italic;
-  color: #777;
+  opacity: 0.4;
 }
 
 .event-interest {
   margin-top: 10px;
   padding: 8px 12px;
-  background-color: #111;
+  background-color: #ca6974;
   color: white;
   border: none;
   border-radius: 5px;
@@ -208,17 +250,19 @@ body {
 }
 
 .event-interest:hover {
-  background-color: #444;
+  background-color: #df929b;
 }
 
 .error-box {
-  border: 1px solid #dbc0c0;
-  border-radius: 8px;
-  padding: 12px 40px 12px 40px;
-  background-color: #ffebeb;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  padding: 12px 40px;
+  background-color: #464040;
   word-wrap: break-word;
   text-align: center;
+  width: 100%;
+  color: white;
 }
 
 .error {
@@ -235,7 +279,7 @@ body {
 .error-msg {
   font-size: 14px;
   font-style: italic;
-  color: #777;
+  color: #fff4;
 }
 
 /* Device */
@@ -243,11 +287,12 @@ body {
 .device-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: #00000050;
   display: flex;
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(10px);
+  z-index: 1;
 }
 
 .device-message {

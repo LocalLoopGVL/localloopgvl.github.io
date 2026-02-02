@@ -96,10 +96,10 @@ sendBtn.addEventListener('click', () => {
 
   const data = {
     name: document.getElementById('name').value || 'test',
-    time: Number(unixTime),
+    time: Number(unixTime) || 1711920000,
     description: document.getElementById('description').value || 'test',
     company: document.getElementById('company').value || 'test',
-    access: document.getElementById('access').value || ''
+    access: document.getElementById('access').value || '030408'
   };
 
   socket.send(JSON.stringify(data));
@@ -132,6 +132,6 @@ socket.onerror = (error) => {
 
 const deviceOverlay = document.getElementById('deviceOverlay');
 
-if (!navigator.userAgentData.mobile) {
-  deviceOverlay.classList.add('hidden');
+if (navigator.userAgentData.mobile) {
+  deviceOverlay.classList.remove('hidden');
 }
