@@ -76,7 +76,6 @@ body {
   transition: background-color 0.3s ease;
 }
 
-
 a.active {
   background: #ebebeb;
 }
@@ -361,4 +360,32 @@ a.active:hover {
   width: 100%;
   color: #000;
   animation: fadeIn 1s ease forwards;
+}
+
+/* Mobile */
+
+@media (max-width: 720px) {
+  .sidebar {
+    position: absolute;
+    z-index: 5;
+    width: 100vw;
+    padding: 110px 20px;
+  }
+  .logo {
+    height: 110px;
+    width: 100vw;
+    margin: -110px -20px;
+  }
+  .logo span {
+    font-size: 50px;
+    font-weight: 300;
+  }
+  .page {
+    width: 100%;
+  }
+  .nav a, .bar-extra {
+    padding: 20px;
+    font-size: 25px;
+    font-weight: 500;
+  }
 }

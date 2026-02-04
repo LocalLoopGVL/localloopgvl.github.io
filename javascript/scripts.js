@@ -135,20 +135,6 @@ socket.onerror = (error) => {
 };
 
 // Device overlay for mobile users
-
-const deviceOverlay = document.getElementById('deviceOverlay');
-
-function checkDeviceOverlay() {
-  if (/Mobi/i.test(navigator.userAgent) || window.innerWidth < 720) {
-    deviceOverlay.classList.remove('hidden');
-  } else {
-    deviceOverlay.classList.add('hidden');
-  }
-}
-
-window.addEventListener('resize', checkDeviceOverlay);
-checkDeviceOverlay();
-
 function refreshPage() {
   location.reload();
 }
