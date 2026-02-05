@@ -144,3 +144,9 @@ socket.onerror = (error) => {
 function refreshPage() {
   location.reload();
 };
+
+const layout = document.getElementById('layout')
+
+document.addEventListener('DOMContentLoaded', () => {
+  layout.classList.add('open');
+});
