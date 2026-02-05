@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Local Loop</title>
   <link rel="stylesheet" href="/css/style.css">
+  <title>Local Loop</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Top Bar -->
-  <header class="sidebar">
+  <header id="side" class="sidebar">
     <div class="logo">
       <span>Local Loop</span>
     </div>
@@ -31,10 +31,16 @@
       <div class="page">
         <span> Settings </span>
       </div>
-      <div class="posted"> 
-        <span> This feature is currently being worked on! </span>
+      <div class="posted" id="test"> 
+        <span> Dark mode </span>
+        <label class="toggle">
+          <input type="checkbox" id="themeToggle">
+          <span class="switch"></span>
+        </label>
       </div>
     </main>
   </div>
+  
+  <script src="/javascript/settings.js"></script>
 </body>
 </html>

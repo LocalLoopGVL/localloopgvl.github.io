@@ -7,6 +7,8 @@ const accessModal = document.getElementById('accessModal');
 const closeAccessBtn = document.getElementById('closeAccess');
 const sendBtn = document.getElementById('send');
 
+const body = document.body;
+
 const socket = new WebSocket('https://carly-vaned-christiana.ngrok-free.dev');
 
 openModalBtn.addEventListener('click', () => {
@@ -83,8 +85,12 @@ function createEventBox(data) {
   box.appendChild(interestEl);
 
   output.appendChild(box);
-}
+};
 
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  body.classList.add('dark');
+}
 
 sendBtn.addEventListener('click', () => {
   const unixTime = document.getElementById('time').value;
@@ -137,4 +143,4 @@ socket.onerror = (error) => {
 // Device overlay for mobile users
 function refreshPage() {
   location.reload();
-}
+};

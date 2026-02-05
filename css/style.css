@@ -5,18 +5,43 @@
   font-family: "Google Sans Flex", sans-serif;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  transition: 0.3s ease;
 }
 
 *::-webkit-scrollbar {
   display: none;
 }
 
+:root {
+  --bg: #f7f7f7;
+  --item: #fff;
+  --item-hover: #f0f0f0;
+  --item-active: #e1e1e1;
+  --text: #000;
+  --header: #f7f7f780;
+  --active: #ebebeb;
+  --active-hover: #dcdcdc;
+  --input: #e8e8e8;
+  --divider: #dedede;
+}
+
+.dark {
+  --bg: #000000;
+  --item: #242424;
+  --item-hover: #353535;
+  --item-active: #424242;
+  --text: #fff;
+  --header: #00000080;
+  --active: #3e3e3e;
+  --active-hover: #5d5d5d;
+  --input: #242424;
+  --divider: #333333;
+}
 
 body {
   height: 100vh;
   display: flex;
-  background: #f7f7f7;
-  color: white;
+  background: var(--bg);
   scrollbar-width: none;
   -ms-overflow-style: none;
   overflow: hidden;
@@ -25,13 +50,13 @@ body {
 /* Sidebar */
 .sidebar {
   width: 350px;
-  background: #f7f7f7;
+  background: var(--bg);
   display: flex;
   flex-direction: column;
   gap: 15px;
   padding: 85px 20px;
   height: 100vh;
-  border-right: #dedede 1px solid;
+  border-right: var(--divider) 1px solid;
   overflow: auto;
 }
 
@@ -41,7 +66,7 @@ body {
   z-index: 1;
   height: 85px;
   width: 349px;
-  background: #f7f7f780;
+  background: var(--header);
   padding-top: 40px;
   padding-left: 20px;
   backdrop-filter: blur(20px);
@@ -49,14 +74,14 @@ body {
 
 .logo span {
   font-size: 25px;
-  color: #000;
+  color: var(--text);
 }
 
 .nav {
   display: block;
   flex-direction: column;
   width: 100%;
-  background-color: #fff;
+  background-color: var(--item);
   border-radius: 15px;
   overflow-y: hidden;
   height: fit-content;
@@ -69,7 +94,7 @@ body {
   padding: 15px;
   font-size: 15px;
   line-height: 25px;
-  color: #000;
+  color: var(--text);
   text-decoration: none;
   cursor: pointer;
   font-weight: bold;
@@ -77,19 +102,19 @@ body {
 }
 
 a.active {
-  background: #ebebeb;
+  background: var(--active);
 }
 
 a.active:hover {
-  background: #dcdcdc!important;
+  background: var(--active-hover)!important;
 }
 
 .nav a:hover, .bar-extra:hover {
-  background: #f0f0f0;
+  background: var(--item-hover);
 }
 
 .nav a:active, .bar-extra:active {
-  background: #e1e1e1;
+  background: var(--item-active);
 }
 
 /* Layout */
@@ -101,7 +126,7 @@ a.active:hover {
 
 .content {
   position: relative;
-  background: #f7f7f7;
+  background: var(--bg);
   color: #111;
   padding: 85px 50px;
   min-height: 100%;
@@ -116,14 +141,14 @@ a.active:hover {
   height: 85px;
   width: calc(100% - 350px);
   text-align: center;
-  background: #f7f7f780;
+  background: var(--header);
   padding-top: 40px;
   backdrop-filter: blur(20px);
 }
 
 .page span {
   font-size: 25px;
-  color: #000;
+  color: var(--text);
 }
 
 /* Event Grid */
@@ -154,11 +179,13 @@ a.active:hover {
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(10px);
+  opacity: 0;
   z-index: 2;
+  animation: fadeIn 0.2s ease forwards;
 }
 
 .modal {
-  background: #fff;
+  background: var(--bg);
   padding: 15px;
   width: 300px;
   display: flex;
@@ -170,9 +197,9 @@ a.active:hover {
 .modal input {
   padding: 8px;
   border-radius: 8px;
-  background-color: #e8e8e8;
+  background-color: var(--input);
   border: none;
-  color: #000;
+  color: var(--text);
   outline: solid 2px #4980f700;
   transition: outline 0.3s ease;
 }
@@ -189,7 +216,7 @@ a.active:hover {
 .modal-actions button {
   padding: 8px 12px;
   border: none;
-  color: white;
+  color: #fff;
   background-color: #4980f7;
   border-radius: 8px;
   cursor: pointer;
@@ -200,7 +227,7 @@ a.active:hover {
 }
 
 .accessModal {
-  background:#fff;
+  background: var(--item);
   position: fixed;
   bottom: 10px;
   left: 10px;
@@ -209,8 +236,10 @@ a.active:hover {
   display: inline;
   flex-direction: column;
   border-radius: 15px;
-  color: #000;
+  color: var(--text);
   font-weight: bold;
+  opacity: 0;
+  animation: fadeIn 0.2s ease forwards;
 }
 
 .accessModal button {
@@ -231,11 +260,11 @@ a.active:hover {
 .event-box {
   border-radius: 15px;
   padding: 15px;
-  background-color: #fff;
+  background: var(--item);
   word-wrap: break-word;
   opacity: 0;
   animation: fadeIn 1s ease forwards;
-  color: #000;
+  color: var(--text);
 }
 
 @keyframes fadeIn {
@@ -282,16 +311,18 @@ a.active:hover {
   background-color: #3e6fd6;
 }
 
+/* Error styles */
+
 .error-box {
   display: flex;
   flex-direction: column;
   border-radius: 15px;
   padding: 15px;
-  background-color: #fff;
+  background-color: var(--item);
   word-wrap: break-word;
   text-align: center;
   width: 100%;
-  color: #000;
+  color: var(--text);
   opacity: 0;
   animation: fadeIn 1s ease forwards;
 }
@@ -310,7 +341,8 @@ a.active:hover {
 .error-msg {
   font-size: 14px;
   font-style: italic;
-  color: #0006;
+  color: var(--text);
+  opacity: 0.4;
 }
 
 .error-btn {
@@ -324,41 +356,20 @@ a.active:hover {
   width: 100%;
 }
 
-/* Device */
-
-.device-overlay {
-  position: fixed;
-  inset: 0;
-  background: #00000060;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(20px);
-  z-index: 3;
-}
-
-.device-message {
-  background: white;
-  color: #000;
-  font-size: 30px;
-  padding: 20px;
-  width: 80%;
-  border-radius: 20px;
-  text-align: center;
-}
-
 /* Posted */
 
 .posted {
   display: flex;
-  flex-direction: column;
   border-radius: 15px;
-  padding: 15px;
-  background-color: #fff;
+  padding: 10px;
+  background: var(--item);
   word-wrap: break-word;
   text-align: center;
   width: 100%;
-  color: #000;
+  color: var(--text);
+  line-height: 25px;
+  justify-content: space-between;
+  opacity: 0;
   animation: fadeIn 1s ease forwards;
 }
 
@@ -388,4 +399,48 @@ a.active:hover {
     font-size: 25px;
     font-weight: 500;
   }
+}
+
+/* toggles */
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 25px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 28px;
+}
+
+.switch::before {
+  content: "";
+  position: absolute;
+  height: 19px;
+  width: 19px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.toggle input:checked + .switch {
+  background-color: #4980f7;
+}
+
+.toggle input:checked + .switch::before {
+  transform: translateX(17px);
 }
