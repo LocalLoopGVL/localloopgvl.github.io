@@ -399,6 +399,7 @@ a#active:hover {
     font-size: 35px;
   }
   .page {
+    height: 110px;
     width: 100vw;
     margin: -110px -20px;
     padding-top: 55px;
