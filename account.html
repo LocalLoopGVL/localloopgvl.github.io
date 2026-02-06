@@ -11,12 +11,12 @@
 </head>
 <body>
   <!-- Top Bar -->
-  <header class="sidebar">
+  <header class="sidebar" id="side">
     <div class="logo">
       <span>Local Loop</span>
     </div>
     <nav class="nav">
-      <a class="active"><div></div>Account</a>
+      <a id="active"><div></div>Account</a>
       <a href="settings.html"><div></div>Settings</a>
     </nav>
     <nav class="nav">
@@ -27,7 +27,10 @@
   </header>
 
   <!-- Layout -->
-  <div class="layout">
+  <div class="ui" id="ui">
+    <div class="mobile-back" id="back"> &larr; </div>
+  </div>
+  <div class="layout" id="layout">
     <main class="content">
       <div class="page">
         <span> Account </span>
@@ -38,6 +41,6 @@
     </main>
   </div>
   
-  <script src="/javascript/settings.js"></script>
+  <script src="/javascript/global.js"></script>
 </body>
 </html>

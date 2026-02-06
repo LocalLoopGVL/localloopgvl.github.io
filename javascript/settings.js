@@ -1,7 +1,5 @@
-const toggleBtn = document.getElementById('themeToggle');
-const body = document.body;
+const toggleBtn = document.getElementById('toggle');
 
-const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') {
   body.classList.add('dark');
   toggleBtn.checked = true;

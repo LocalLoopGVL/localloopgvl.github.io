@@ -7,8 +7,6 @@ const accessModal = document.getElementById('accessModal');
 const closeAccessBtn = document.getElementById('closeAccess');
 const sendBtn = document.getElementById('send');
 
-const body = document.body;
-
 const socket = new WebSocket('https://carly-vaned-christiana.ngrok-free.dev');
 
 openModalBtn.addEventListener('click', () => {
@@ -52,7 +50,6 @@ function formatUnixDate(unix) {
   return `${month}/${day}/${year} @ ${hours}:${minutes}`;
 }
 
-
 function createEventBox(data) {
   const box = document.createElement('div');
   box.classList.add('event-box');
@@ -86,11 +83,6 @@ function createEventBox(data) {
 
   output.appendChild(box);
 };
-
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-  body.classList.add('dark');
-}
 
 sendBtn.addEventListener('click', () => {
   const unixTime = document.getElementById('time').value;
@@ -144,9 +136,3 @@ socket.onerror = (error) => {
 function refreshPage() {
   location.reload();
 };
-
-const layout = document.getElementById('layout')
-
-document.addEventListener('DOMContentLoaded', () => {
-  layout.classList.add('open');
-});

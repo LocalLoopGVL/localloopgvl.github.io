@@ -103,19 +103,19 @@ body {
   transition: background-color 0.3s ease;
 }
 
-a.active {
+a#active {
   background: var(--active);
 }
 
-a.active:hover {
+a#active:hover {
   background: var(--active-hover);
 }
 
-.nav a:not(.active):hover, .bar-extra:hover {
+.nav a:not(#active):hover, .bar-extra:hover {
   background: var(--item-hover);
 }
 
-.nav a:not(.active):active, .bar-extra:active {
+.nav a:not(#active):active, .bar-extra:active {
   background: var(--item-active);
 }
 
@@ -152,6 +152,10 @@ a.active:hover {
 .page span {
   font-size: 25px;
   color: var(--text);
+}
+
+.ui {
+  display: none;
 }
 
 /* Event Grid */
@@ -383,44 +387,83 @@ a.active:hover {
     position: absolute;
     width: 100vw;
     padding: 110px 20px;
+    border: none;
   }
   .logo {
     height: 110px;
     width: 100vw;
     margin: -110px -20px;
+    padding-top: 55px;
   }
   .logo span {
-    font-size: 40px;
+    font-size: 35px;
   }
   .page {
-    width: 100%;
+    width: 100vw;
+    margin: -110px -20px;
+    padding-top: 55px;
+  }
+  .page span {
+    font-size: 35px;
+    padding-top: 55px;
   }
   .layout {
     position: fixed;
     z-index: 1;
     transform: translateX(100vw);
     overflow: hidden;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     background: var(--bg);
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+  }
+  .content {
+    padding: 110px 20px;
   }
   .open {
-    transform: translateX(0);
+    transform: translateX(0) !important;
   }
   .nav a, .bar-extra {
-    padding: 15px;
-    font-size: 20px;
-    font-weight: 500;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 400;
   }
-  .active {
+  #active {
     background: var(--item) !important;
   }
-  .active:hover {
+  #active:hover {
     background: var(--item-hover) !important;
   }
-  .active:active {
+  #active:active {
     background: var(--item-active) !important;
+  }
+  .mobile-back {
+    position：fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    width: 40px;
+    height: 40px;
+    z-index: 2;
+    cursor: pointer;
+    font-size: 30px;
+    color: var(--text);
+  }
+  .ui {
+    overflow: hidden;
+    width: 100vw;
+    height: 40px;
+    position: fixed;
+    z-index: 2;
+    transform: translateX(100vw);
+    display: block;
+  }
+  .posted {
+    opacity: 1;
+  }
+  .nav-fx {
+    transform: scale(0.9);
+    opacity: 0.2;
   }
 }
 

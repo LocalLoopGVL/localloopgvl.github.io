@@ -11,7 +11,7 @@
 </head>
 <body>
   <!-- Top Bar -->
-  <header class="sidebar">
+  <header class="sidebar" id="side">
     <div class="logo">
       <span>Local Loop</span>
     </div>
@@ -22,12 +22,15 @@
     <nav class="nav">
       <a href="index.html"><div></div>Home</a>
       <a href="about.html"><div></div>About</a>
-      <a class="active"><div></div>Contact</a>
+      <a id="active"><div></div>Contact</a>
     </nav>
   </header>
 
   <!-- Layout -->
-  <div class="layout">
+  <div class="ui" id="ui">
+    <div class="mobile-back" id="back"> &larr; </div>
+  </div>
+  <div class="layout" id="layout">
     <main class="content">
       <div class="page">
         <span> Contact </span>
@@ -38,6 +41,6 @@
     </main>
   </div>
   
-  <script src="/javascript/settings.js"></script>
+  <script src="/javascript/global.js"></script>
 </body>
 </html>
