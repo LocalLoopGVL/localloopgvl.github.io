@@ -4,6 +4,7 @@ const ui = document.getElementById('ui')
 const sidebar = document.getElementById('side')
 const active = document.getElementById('active')
 const savedTheme = localStorage.getItem('theme');
+const savedMotion = localStorage.getItem('motion');
 const body = document.body
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -29,3 +30,8 @@ active.addEventListener('click', () => {
 if (savedTheme === 'dark') {
   body.classList.add('dark');
 };
+
+if (savedMotion === 'reduced') {
+  body.classList.add('reduced');
+  toggleMotion.checked = true;
+}

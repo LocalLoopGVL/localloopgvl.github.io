@@ -5,7 +5,7 @@
   font-family: "Google Sans Flex", sans-serif;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  transition: 0.3s ease;
+  transition: var(--motion);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -24,6 +24,10 @@
   --active-hover: #dcdcdc;
   --input: #e8e8e8;
   --divider: #dedede;
+  --toggle: #e5e5e5;
+  --motion: 0.3s ease;
+  --filter: blur(15px);
+  --opacity: 0;
 }
 
 .dark {
@@ -37,6 +41,21 @@
   --active-hover: #5d5d5d;
   --input: #242424;
   --divider: #333333;
+  --toggle: #505050;
+}
+
+.reduced {
+  --motion: none !important;
+  --filter: none !important;
+  --opacity: 1 !important;
+  --header: #f7f7f7 !important;
+}
+
+.reduced.dark  {
+  --motion: none !important;
+  --filter: none !important;
+  --opacity: 1 !important;
+  --header: #000000 !important;
 }
 
 body {
@@ -55,7 +74,7 @@ body {
   background: var(--bg);
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
   padding: 85px 20px;
   height: 100vh;
   border-right: var(--divider) 1px solid;
@@ -71,7 +90,7 @@ body {
   background: var(--header);
   padding-top: 40px;
   padding-left: 20px;
-  backdrop-filter: blur(20px);
+  backdrop-filter: var(--filter);
 }
 
 .logo span {
@@ -100,7 +119,6 @@ body {
   text-decoration: none;
   cursor: pointer;
   font-weight: bold;
-  transition: background-color 0.3s ease;
 }
 
 a#active {
@@ -146,7 +164,7 @@ a#active:hover {
   text-align: center;
   background: var(--header);
   padding-top: 40px;
-  backdrop-filter: blur(20px);
+  backdrop-filter: var(--filter);
 }
 
 .page span {
@@ -185,8 +203,8 @@ a#active:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px);
-  opacity: 0;
+  backdrop-filter: var(--filter);
+  opacity: var(--opacity);
   z-index: 2;
   animation: fadeIn 0.2s ease forwards;
 }
@@ -245,7 +263,7 @@ a#active:hover {
   border-radius: 15px;
   color: var(--text);
   font-weight: bold;
-  opacity: 0;
+  opacity: var(--opacity);
   animation: fadeIn 0.2s ease forwards;
 }
 
@@ -269,7 +287,7 @@ a#active:hover {
   padding: 15px;
   background: var(--item);
   word-wrap: break-word;
-  opacity: 0;
+  opacity: var(--opacity);
   animation: fadeIn 1s ease forwards;
   color: var(--text);
 }
@@ -330,7 +348,7 @@ a#active:hover {
   text-align: center;
   width: 100%;
   color: var(--text);
-  opacity: 0;
+  opacity: var(--opacity);
   animation: fadeIn 1s ease forwards;
 }
 
@@ -368,16 +386,21 @@ a#active:hover {
 .posted {
   display: flex;
   border-radius: 15px;
+  flex-direction: column;
+  gap: 10px;
   padding: 10px;
+  margin-bottom: 10px;
   background: var(--item);
-  word-wrap: break-word;
-  text-align: center;
   width: 100%;
   color: var(--text);
   line-height: 25px;
-  justify-content: space-between;
-  opacity: 0;
+  opacity: var(--opacity);
   animation: fadeIn 1s ease forwards;
+}
+
+.posted span {
+  display: flex;
+  justify-content: space-between;
 }
 
 /* Mobile */
@@ -386,13 +409,14 @@ a#active:hover {
   .sidebar {
     position: absolute;
     width: 100vw;
-    padding: 110px 20px;
+    padding: 110px 10px;
     border: none;
+    gap: 10px;
   }
   .logo {
     height: 110px;
     width: 100vw;
-    margin: -110px -20px;
+    margin: -110px -10px;
     padding-top: 55px;
   }
   .logo span {
@@ -401,7 +425,7 @@ a#active:hover {
   .page {
     height: 110px;
     width: 100vw;
-    margin: -110px -20px;
+    margin: -110px -10px;
     padding-top: 55px;
   }
   .page span {
@@ -417,8 +441,11 @@ a#active:hover {
     width: 100vw;
     background: var(--bg);
   }
+  .event-grid {
+    gap: 10px;
+  }
   .content {
-    padding: 110px 20px;
+    padding: 110px 10px;
   }
   .open {
     transform: translateX(0) !important;
@@ -438,22 +465,24 @@ a#active:hover {
     background: var(--item-active) !important;
   }
   .mobile-back {
-    position：fixed;
+    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px;
-    width: 40px;
-    height: 40px;
+    width: 25px;
+    height: 25px;
     z-index: 2;
     cursor: pointer;
     font-size: 30px;
-    color: var(--text);
+  }
+  .dark .mobile-back {
+    filter: invert(1);
   }
   .ui {
     overflow: hidden;
     width: 100vw;
-    height: 40px;
+    height: 25px;
+    margin: 22px 25px;
     position: fixed;
     z-index: 2;
     transform: translateX(100vw);
@@ -464,7 +493,7 @@ a#active:hover {
   }
   .nav-fx {
     transform: scale(0.9);
-    opacity: 0.2;
+    opacity: 0;
   }
 }
 
@@ -487,8 +516,8 @@ a#active:hover {
   position: absolute;
   cursor: pointer;
   inset: 0;
-  background-color: #ccc;
-  transition: 0.3s;
+  background-color: var(--toggle);
+  transition: var(--motion);
   border-radius: 28px;
 }
 
@@ -500,7 +529,7 @@ a#active:hover {
   left: 3px;
   bottom: 3px;
   background-color: white;
-  transition: 0.3s;
+  transition: var(--motion);
   border-radius: 50%;
 }
 

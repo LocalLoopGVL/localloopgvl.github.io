@@ -1,16 +1,32 @@
-const toggleBtn = document.getElementById('toggle');
+const toggleTheme = document.getElementById('toggleTheme');
+const toggleMotion = document.getElementById('toggleMotion');
 
 if (savedTheme === 'dark') {
   body.classList.add('dark');
-  toggleBtn.checked = true;
+  toggleTheme.checked = true;
 }
 
-toggleBtn.addEventListener('change', () => {
-  if (toggleBtn.checked) {
+if (savedMotion === 'reduced') {
+  body.classList.add('reduced');
+  toggleMotion.checked = true;
+}
+
+toggleTheme.addEventListener('change', () => {
+  if (toggleTheme.checked) {
     body.classList.add('dark');
     localStorage.setItem('theme', 'dark');
   } else {
     body.classList.remove('dark');
     localStorage.setItem('theme', 'light');
+  }
+});
+
+toggleMotion.addEventListener('change', () => {
+  if (toggleMotion.checked) {
+    body.classList.add('reduced');
+    localStorage.setItem('motion', 'reduced');
+  } else {
+    body.classList.remove('reduced');
+    localStorage.setItem('motion', 'normal');
   }
 });
