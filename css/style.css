@@ -283,6 +283,9 @@ a#active:hover {
 /* Event Card Styles */
 
 .event-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   border-radius: 15px;
   padding: 15px;
   background: var(--item);

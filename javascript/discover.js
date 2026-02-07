@@ -52,6 +52,7 @@ function formatUnixDate(unix) {
 
 function createEventBox(data) {
   const box = document.createElement('div');
+  const wrapper = document.createElement('div');
   box.classList.add('event-box');
 
   const nameEl = document.createElement('div');
@@ -75,10 +76,12 @@ function createEventBox(data) {
   interestEl.innerText = 'Get notified!';
 
   // append all elements to the box
-  box.appendChild(nameEl);
-  box.appendChild(dateEl);
-  box.appendChild(descEl);
-  box.appendChild(companyEl);
+  wrapper.appendChild(nameEl);
+  wrapper.appendChild(dateEl);
+  wrapper.appendChild(descEl);
+  wrapper.appendChild(companyEl);
+  box.appendChild(wrapper);
+
   box.appendChild(interestEl);
 
   output.appendChild(box);
