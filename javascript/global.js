@@ -1,11 +1,12 @@
-const layout = document.getElementById('layout')
-const back = document.getElementById('back')
-const ui = document.getElementById('ui')
-const sidebar = document.getElementById('side')
-const active = document.getElementById('active')
+const layout = document.getElementById('layout');
+const back = document.getElementById('back');
+const ui = document.getElementById('ui');
+const sidebar = document.getElementById('side');
+const active = document.getElementById('active');
+const body = document.body;
+
 const savedTheme = localStorage.getItem('theme');
 const savedMotion = localStorage.getItem('motion');
-const body = document.body
 
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
@@ -27,10 +28,24 @@ active.addEventListener('click', () => {
   sidebar.classList.add('nav-fx');
 });
 
+// Theme handling
 if (savedTheme === 'dark') {
   body.classList.add('dark');
-};
+} else if (savedTheme === 'light') {
+  body.classList.add('light');
+} else {
+  // Use system preference
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (prefersDark) {
+    body.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+  } else {
+    body.classList.add('light');
+    localStorage.setItem('theme', 'light');
+  }
+}
 
+// Motion handling
 if (savedMotion === 'reduced') {
   body.classList.add('reduced');
   toggleMotion.checked = true;
