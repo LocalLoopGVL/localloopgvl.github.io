@@ -13,6 +13,12 @@
   display: none;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 :root {
   --bg: #f7f7f7;
   --item: #fff;
@@ -109,7 +115,7 @@ body {
   flex-shrink: 0;
 }
 
-.nav a, .bar-extra {
+.nav a, .bar-extra, .nav span {
   display: flex;
   width: 100%;
   padding: 15px;
@@ -129,11 +135,11 @@ a#active:hover {
   background: var(--active-hover);
 }
 
-.nav a:not(#active):hover, .bar-extra:hover {
+.nav a:not(#active):hover, .bar-extra:hover, .nav span:not(#active):active {
   background: var(--item-hover);
 }
 
-.nav a:not(#active):active, .bar-extra:active {
+.nav a:not(#active):active, .bar-extra:active, .nav span:not(#active):active {
   background: var(--item-active);
 }
 
@@ -215,11 +221,12 @@ a#active:hover {
   width: 300px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
   border-radius: 15px;
+  outline: solid 1px var(--item);
 }
 
-.modal input {
+.modal input, .modal textarea {
   padding: 8px;
   border-radius: 8px;
   background-color: var(--input);
@@ -227,10 +234,17 @@ a#active:hover {
   color: var(--text);
   outline: solid 2px #4980f700;
   transition: outline 0.3s ease;
+  height: 2rem;
 }
 
 .modal input:focus {
+  display: flex;
   outline: solid 2px #4980f7;
+}
+
+#description {
+  word-wrap: break-word;
+  resize: vertical;
 }
 
 .modal-actions {
@@ -307,7 +321,7 @@ a#active:hover {
   margin-bottom: 6px;
 }
 
-.event-date {
+.event-date, .event-location {
   font-size: 14px;
   opacity: 0.4;
   margin-bottom: 6px;
@@ -401,9 +415,21 @@ a#active:hover {
   animation: fadeIn 1s ease forwards;
 }
 
-.posted span {
+.inline {
   display: flex;
+  gap: 10px;
+  width: 100%;
   justify-content: space-between;
+  color: var(--text);
+  align-items: center;
+}
+
+#date, #time, #street, #city {
+  width: 50%;
+}
+
+#state {
+  width: 33px;
 }
 
 /* Mobile */
@@ -453,7 +479,7 @@ a#active:hover {
   .open {
     transform: translateX(0) !important;
   }
-  .nav a, .bar-extra {
+  .nav a, .bar-extra, .nav span {
     padding: 12px;
     font-size: 15px;
     font-weight: 400;

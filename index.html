@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Top Bar -->
+  <!-- Side Bar -->
   <header class="sidebar" id="side">
     <div class="logo">
       <span>Local Loop</span>
@@ -19,11 +19,11 @@
       <a href="account.html"><div></div>Account</a>
       <a href="settings.html"><div></div>Settings</a>
     </div>
-    <nav class="nav">
-      <a id="active"><div></div>Discover</a>
+    <div class="nav">
+      <span id="active"><div></div>Discover</span>
       <a href="about.html"><div></div>About</a>
       <a href="contact.html"><div></div>Contact</a>
-    </nav>
+    </div>
     <div class="nav">
       <span class="bar-extra" id="openModal"> Post </span>
     </div>
@@ -39,7 +39,7 @@
         <span> Discover </span>
       </div>
       <div id="output" class="event-grid">
-        <!-- event cards create here -->
+        <!-- event cards created here -->
       </div>
     </main>
   </div>
@@ -48,9 +48,18 @@
   <div id="modalOverlay" class="modal-overlay hidden">
     <div class="modal">
       <input type="text" id="name" placeholder="Name">
-      <input type="number" id="time" placeholder="Time (in unix format)">
-      <input type="text" id="description" placeholder="Description">
-      <input type="text" id="company" placeholder="Company">
+      <div class="inline">
+        <input type="date" id="date" placeholder="MM/DD/YYYY"> 
+        @
+        <input type="time" id="time" placeholder="HH:MM">
+      </div>
+      <div class="inline">
+        <input id="street" placeholder="123 Main St">
+        <input id="city" placeholder="Greenville">
+        <input id="state" placeholder="SC">
+      </div>
+      <input type="text" id="description" placeholder="Briefly describe your event...">
+      <input type="text" id="company" placeholder="Event host">
       <input type="text" id="access" placeholder="Access Code">
 
       <div class="modal-actions">

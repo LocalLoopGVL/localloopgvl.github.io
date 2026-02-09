@@ -52,8 +52,9 @@ function formatUnixDate(unix) {
 
 function createEventBox(data) {
   const box = document.createElement('div');
-  const wrapper = document.createElement('div');
   box.classList.add('event-box');
+
+  const wrapper = document.createElement('div');
 
   const nameEl = document.createElement('div');
   nameEl.classList.add('event-name');
@@ -62,6 +63,10 @@ function createEventBox(data) {
   const dateEl = document.createElement('div');
   dateEl.classList.add('event-date');
   dateEl.innerText = formatUnixDate(Number(data.time));
+
+  const locationEl = document.createElement('div');
+  locationEl.classList.add('event-location');
+  locationEl.innerText = `${data.street}, ${data.city}, ${data.state}`;
 
   const descEl = document.createElement('div');
   descEl.classList.add('event-desc');
@@ -75,37 +80,51 @@ function createEventBox(data) {
   interestEl.classList.add('event-interest');
   interestEl.innerText = 'Get notified!';
 
-  // append all elements to the box
   wrapper.appendChild(nameEl);
   wrapper.appendChild(dateEl);
+  wrapper.appendChild(locationEl);
   wrapper.appendChild(descEl);
   wrapper.appendChild(companyEl);
-  box.appendChild(wrapper);
 
+  box.appendChild(wrapper);
   box.appendChild(interestEl);
 
   output.appendChild(box);
-};
+}
 
 sendBtn.addEventListener('click', () => {
-  const unixTime = document.getElementById('time').value;
+  const dateVal = document.getElementById('date').value;
+  const timeVal = document.getElementById('time').value;
 
-  if (!unixTime || isNaN(unixTime)) {
-    alert('Please enter a valid Unix timestamp.');
+  if (!dateVal || !timeVal) {
+    alert('Please enter a valid date and time.');
+    return;
+  }
+
+  // Combine date
+  const combined = new Date(`${dateVal}T${timeVal}`);
+  const unixTime = Math.floor(combined.getTime() / 1000);
+
+  if (isNaN(unixTime)) {
+    alert('Invalid date/time.');
     return;
   }
 
   const data = {
     name: document.getElementById('name').value,
-    time: Number(unixTime),
+    time: unixTime,
     description: document.getElementById('description').value,
     company: document.getElementById('company').value,
-    access: document.getElementById('access').value
+    street: document.getElementById('street').value,
+    city: document.getElementById('city').value,
+    state: document.getElementById('state').value,
+    access: document.getElementById('access').value,
   };
 
   socket.send(JSON.stringify(data));
   modalOverlay.classList.add('hidden');
 });
+
 
 socket.onerror = (error) => {
   const box = document.createElement('div');
