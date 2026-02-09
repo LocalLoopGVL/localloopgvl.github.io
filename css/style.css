@@ -143,6 +143,15 @@ a#active:hover {
   background: var(--item-active);
 }
 
+.nav div {
+  height: 25px;
+  width: 25px;
+  background: #4980f7;
+  margin-right: 10px;
+  border-radius: 5px;
+  display: none;
+}
+
 /* Layout */
 .layout {
   flex: 1;
@@ -240,6 +249,10 @@ a#active:hover {
 .modal input:focus {
   display: flex;
   outline: solid 2px #4980f7;
+}
+
+.fielderror {
+  outline: solid 2px #E92C2C !important;
 }
 
 #description {
@@ -524,6 +537,9 @@ a#active:hover {
     transform: scale(0.9);
     opacity: 0;
   }
+  .modal {
+    scale: 1.2;
+  }
 }
 
 /* toggles */
@@ -553,13 +569,20 @@ a#active:hover {
 .switch::before {
   content: "";
   position: absolute;
-  height: 19px;
-  width: 19px;
-  left: 3px;
-  bottom: 3px;
+  height: 17px;
+  width: 17px;
+  left: 4px;
+  bottom: 4px;
   background-color: white;
   transition: var(--motion);
   border-radius: 50%;
+}
+
+.switch:hover::before {
+  height: 21px;
+  width: 21px;
+  left: 2px;
+  bottom: 2px;
 }
 
 .toggle input:checked + .switch {

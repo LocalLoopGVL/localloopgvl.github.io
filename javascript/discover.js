@@ -95,13 +95,45 @@ function createEventBox(data) {
 sendBtn.addEventListener('click', () => {
   const dateVal = document.getElementById('date').value;
   const timeVal = document.getElementById('time').value;
-
-  if (!dateVal || !timeVal) {
-    alert('Please enter a valid date and time.');
+  
+  const requiredFields = [
+    'name',
+    'date',
+    'time',
+    'description',
+    'company',
+    'street',
+    'city',
+    'state',
+    'access'
+  ];
+  
+  let hasErrors = false;
+  
+  requiredFields.forEach(id => {
+    const el = document.getElementById(id);
+    el?.addEventListener('input', () => {
+      if (el.value.trim()) {
+        el.classList.remove('error');
+      }
+    });
+  });
+  
+  requiredFields.forEach(id => {
+    const el = document.getElementById(id);
+  
+    if (!el || !el.value.trim()) {
+      hasErrors = true;
+      el?.classList.add('fielderror');
+    } else {
+      el.classList.remove('fielderror');
+    }
+  });
+  
+  if (hasErrors) {
     return;
   }
-
-  // Combine date
+  
   const combined = new Date(`${dateVal}T${timeVal}`);
   const unixTime = Math.floor(combined.getTime() / 1000);
 
