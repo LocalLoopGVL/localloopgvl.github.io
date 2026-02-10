@@ -158,7 +158,8 @@ sendBtn.addEventListener('click', () => {
 });
 
 
-socket.onerror = (error) => {
+socket.onclose = (event) => {
+  output.innerHTML = "";
   const box = document.createElement('div');
   box.classList.add('error-box');
 
@@ -172,7 +173,7 @@ socket.onerror = (error) => {
 
   const errormsgEl = document.createElement('div');
   errormsgEl.classList.add('error-msg');
-  errormsgEl.innerText = "Error details: " + error.message;
+  errormsgEl.innerText = "Code: " + event.code;
 
   const errorbtnEl = document.createElement('button');
   errorbtnEl.classList.add('error-btn');
