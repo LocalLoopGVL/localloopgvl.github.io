@@ -4,20 +4,11 @@
   <defs>
     <style>
       .st0 {
-        fill: none;
-      }
-
-      .st0, .st1 {
-        fill-rule: evenodd;
         stroke: #000;
         stroke-width: 3px;
       }
-
-      .st1 {
-        stroke-linecap: round;
-      }
     </style>
   </defs>
-  <path class="st1" d="M39,20H4h35Z"/>
-  <polyline class="st0" points="17 34 3 20 17 6"/>
+  <line class="st0" x1="2" y1="20" x2="38" y2="20"/>
+  <line class="st0" x1="20" y1="2" x2="20" y2="38"/>
 </svg>

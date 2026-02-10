@@ -25,14 +25,14 @@ input[type="number"]::-webkit-outer-spin-button {
   --item-hover: #f0f0f0;
   --item-active: #e1e1e1;
   --text: #000;
-  --header: #f7f7f780;
+  --header: #f7f7f7aa;
   --active: #ebebeb;
   --active-hover: #dcdcdc;
   --input: #e8e8e8;
   --divider: #dedede;
   --toggle: #e5e5e5;
   --motion: 0.3s ease;
-  --filter: blur(15px);
+  --filter: blur(25px);
   --opacity: 0;
 }
 
@@ -42,7 +42,7 @@ input[type="number"]::-webkit-outer-spin-button {
   --item-hover: #353535;
   --item-active: #424242;
   --text: #fff;
-  --header: #00000080;
+  --header: #000000aa;
   --active: #3e3e3e;
   --active-hover: #5d5d5d;
   --input: #242424;
@@ -170,14 +170,20 @@ span#active:hover {
   overflow: auto;
 }
 
-.content .section {
+.section {
   font-size: 12px;
   color: var(--text);
   opacity: 0.5;
   margin-left: 10px;
   margin-bottom: 5px;
-  opacity: 0;
-  animation: fadeIn 1s ease forwards;
+}
+
+.footer {
+  font-size: 12px;
+  color: var(--text);
+  opacity: 0.5;
+  text-align: center;
+  margin-top: 10px;
 }
 
 .page {
@@ -199,10 +205,10 @@ span#active:hover {
 
 .ui {
     overflow: hidden;
-    width: 25px;
-    right: 25px;
-    top: 25px;
-    height: 25px;
+    width: 20px;
+    right: 20px;
+    top: 20px;
+    height: 20px;
     position: fixed;
     z-index: 2;
     display: flex;
@@ -217,11 +223,15 @@ span#active:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   z-index: 2;
   cursor: pointer;
   font-size: 25px;
+}
+
+.dark .add-event {
+  filter: invert(1);
 }
 
 /* Event Grid */
@@ -502,6 +512,8 @@ span#active:hover {
     width: 100vw;
     margin: -110px -10px;
     padding-top: 55px;
+    text-align: left;
+    padding-left: 20px;
   }
   .page span {
     font-size: 35px;
@@ -542,16 +554,17 @@ span#active:hover {
   .ui {
     top: 0;
     left: 0;
-    width: calc(100vw - 50px);
-    margin: 25px 25px;
+    width: calc(100vw - 40px);
+    margin: 20px 20px;
     transform: translateX(100vw);
+
   }
   .mobile-back {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     z-index: 2;
     cursor: pointer;
     font-size: 30px;
