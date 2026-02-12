@@ -24,6 +24,13 @@ closeAccessBtn.addEventListener('click', () => {
 socket.addEventListener('message', (event) => {
   const message = JSON.parse(event.data);
 
+  if (message.type === 'success') {
+    modalOverlay.classList.add('hidden');
+    sendBtn.disabled = false;
+    sendBtn.innerText = "Send";
+    document.querySelectorAll('#modalOverlay input').forEach(el => el.value = '');
+  }
+
   if (message.type === 'init') {
     message.events.forEach(createEventBox);
   }
@@ -74,7 +81,7 @@ function createEventBox(data) {
 
   const companyEl = document.createElement('div');
   companyEl.classList.add('event-company');
-  companyEl.innerText = 'Posted by: ' + data.company;
+  companyEl.innerText = 'Hosted by: ' + data.company;
 
   const interestEl = document.createElement('button');
   interestEl.classList.add('event-interest');
@@ -137,11 +144,6 @@ sendBtn.addEventListener('click', () => {
   const combined = new Date(`${dateVal}T${timeVal}`);
   const unixTime = Math.floor(combined.getTime() / 1000);
 
-  if (isNaN(unixTime)) {
-    alert('Invalid date/time.');
-    return;
-  }
-
   const data = {
     name: document.getElementById('name').value,
     time: unixTime,
@@ -154,11 +156,14 @@ sendBtn.addEventListener('click', () => {
   };
 
   socket.send(JSON.stringify(data));
-  modalOverlay.classList.add('hidden');
+  sendBtn.disabled = true;
+  sendBtn.innerText = "Posting...";
 });
 
 
 socket.onerror = (error) => {
+  sendBtn.disabled = false;
+  sendBtn.innerText = "Send";
   const box = document.createElement('div');
   box.classList.add('error-box');
 
