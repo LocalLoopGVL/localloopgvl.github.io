@@ -161,7 +161,7 @@ sendBtn.addEventListener('click', () => {
 });
 
 
-socket.onerror = (error) => {
+socket.onclose = (error) => {
   sendBtn.disabled = false;
   sendBtn.innerText = "Send";
   const box = document.createElement('div');
@@ -177,7 +177,7 @@ socket.onerror = (error) => {
 
   const errormsgEl = document.createElement('div');
   errormsgEl.classList.add('error-msg');
-  errormsgEl.innerText = "Error details: " + error.message;
+  errormsgEl.innerText = "Code: " + error.code;
 
   const errorbtnEl = document.createElement('button');
   errorbtnEl.classList.add('error-btn');

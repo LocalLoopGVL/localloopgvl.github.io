@@ -278,7 +278,7 @@ span#active:hover {
   outline: solid 1px var(--item);
 }
 
-.modal input, .modal textarea {
+input {
   padding: 8px;
   border-radius: 8px;
   background-color: var(--input);
@@ -289,7 +289,7 @@ span#active:hover {
   height: 2rem;
 }
 
-.modal input:focus {
+input:focus {
   display: flex;
   outline: solid 2px #4980f7;
 }
@@ -469,6 +469,11 @@ span#active:hover {
   line-height: 25px;
   opacity: var(--opacity);
   animation: fadeIn 1s ease forwards;
+}
+
+.posted a {
+  color: #4980f7;
+  text-decoration: none;
 }
 
 .inline {

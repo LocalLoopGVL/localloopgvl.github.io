@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/css/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Local Loop</title>
+  <link rel="stylesheet" href="/css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap" rel="stylesheet">
@@ -14,10 +14,10 @@
   <header class="sidebar" id="side">
     <div class="logo">
       <span>Local Loop</span>
-    </div>
+    </div>   
     <div class="nav">
       <a href="account.html"><div></div>Account</a>
-      <span id="active"><div></div>Settings</span>
+      <a href="settings.html"><div></div>Settings</a>
     </div>
     <div class="nav">
       <a href="index.html"><div></div>Discover</a>
@@ -25,7 +25,7 @@
       <a href="contact.html"><div></div>Contact</a>
     </div>
     <div class="nav">
-      <a href="guidelines.html"><div></div>Guidelines</a>
+      <span id="active"><div></div>Guidelines</span>
     </div>
   </header>
 
@@ -36,27 +36,15 @@
   <div class="layout" id="layout">
     <main class="content">
       <div class="page">
-        <span> Settings </span>
+        <span> Guidelines </span>
       </div>
-      <div class="section"> General </div>
-      <div class="posted"> 
-        <div class="inline"> Dark mode
-          <label class="toggle">
-            <input type="checkbox" id="toggleTheme" />
-            <span class="switch"></span>
-          </label>
-        </div>
-        <div class="inline"> Reduce motion
-          <label class="toggle">
-            <input type="checkbox" id="toggleMotion" />
-            <span class="switch"></span>
-          </label>
-        </div>
+      <div class="posted">
+        <span> <strong>Be Relevant:</strong> This is a place for events, deals, and community gatherings. <br> <strong>Be Clear:</strong> Be sure to tell people about your event in its description. Try to keep it short but informative. <br> <strong>Be Respectful:</strong> No offensive, harmful, or discriminatory content. <br> <strong>No Spam:</strong> Try to avoid repeated posts or unrelated promotions. <br> <strong>Check Details:</strong> Make sure all times and locations are correct before posting. </span>
       </div>
+      <div class="footer"> Failure to comply with these guidelines will result in a post deletion </div>
     </main>
   </div>
   
   <script src="/javascript/global.js"></script>
-  <script src="/javascript/settings.js"></script>
 </body>
 </html>
