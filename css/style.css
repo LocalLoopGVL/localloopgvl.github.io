@@ -183,7 +183,6 @@ span#active:hover {
   color: var(--text);
   opacity: 0.5;
   text-align: center;
-  margin-top: 10px;
 }
 
 .page {
@@ -239,12 +238,7 @@ span#active:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
-}
-
-@media (max-width: 900px) {
-  .event-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  }
+  margin-bottom: 10px;
 }
 
 @media (max-width: 600px) {
@@ -423,6 +417,7 @@ input:focus {
   color: var(--text);
   opacity: var(--opacity);
   animation: fadeIn 1s ease forwards;
+  margin-bottom: 20px;
 }
 
 .error {
@@ -471,7 +466,7 @@ input:focus {
   animation: fadeIn 1s ease forwards;
 }
 
-.posted a {
+.posted a, .error-box a {
   color: #4980f7;
   text-decoration: none;
 }
@@ -496,6 +491,9 @@ input:focus {
 /* Mobile */
 
 @media (max-width: 720px) {
+  .error-box {
+    margin-bottom: 10px;
+  }
   .sidebar {
     position: absolute;
     width: 100vw;

@@ -6,6 +6,7 @@ const modalOverlay = document.getElementById('modalOverlay');
 const accessModal = document.getElementById('accessModal');
 const closeAccessBtn = document.getElementById('closeAccess');
 const sendBtn = document.getElementById('send');
+const errors = document.getElementById('errors');
 
 const socket = new WebSocket('https://carly-vaned-christiana.ngrok-free.dev');
 
@@ -45,16 +46,24 @@ socket.addEventListener('message', (event) => {
 });
 
 function formatUnixDate(unix) {
-  const date = new Date(unix * 1000); // seconds → ms
+  const date = new Date(unix * 1000);
 
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const month = months[date.getMonth()];
+  const day = date.getDate();
   const year = date.getFullYear();
 
-  const hours = String(date.getHours()).padStart(2, '0');
+  let hours = date.getHours();
   const minutes = String(date.getMinutes()).padStart(2, '0');
 
-  return `${month}/${day}/${year} @ ${hours}:${minutes}`;
+  const ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12 || 12;
+
+  return `${month} ${day}, ${year} • ${hours}:${minutes} ${ampm}`;
 }
 
 function createEventBox(data) {
@@ -161,37 +170,67 @@ sendBtn.addEventListener('click', () => {
 });
 
 
-socket.onclose = (error) => {
+socket.onclose = (event) => {
   sendBtn.disabled = false;
   sendBtn.innerText = "Send";
-  const box = document.createElement('div');
-  box.classList.add('error-box');
 
-  const errorEl = document.createElement('div');
-  errorEl.classList.add('error');
-  errorEl.innerText = "Uh oh!";
+  const hasContent = output.children.length > 0;
 
-  const errorinfoEl = document.createElement('div');
-  errorinfoEl.classList.add('error-info');
-  errorinfoEl.innerText = "Something went wrong with the WebSocket connection. Try reloading the page. If the problem persists, we may be down for maintenance.";
+  if (!hasContent) {
+    // Nothing in output: show error screen
+    output.classList.add('hidden');
+    const box = document.createElement('div');
+    box.classList.add('error-box');
 
-  const errormsgEl = document.createElement('div');
-  errormsgEl.classList.add('error-msg');
-  errormsgEl.innerText = "Code: " + error.code;
+    const titleEl = document.createElement('div');
+    titleEl.classList.add('error');
+    titleEl.innerText = "Uh oh!";
 
-  const errorbtnEl = document.createElement('button');
-  errorbtnEl.classList.add('error-btn');
-  errorbtnEl.onclick = refreshPage;
-  errorbtnEl.innerText = "Refresh Page";
+    const infoEl = document.createElement('div');
+    infoEl.classList.add('error-info');
+    infoEl.innerText = "Something went wrong with the WebSocket connection. Try reloading the page. If the problem persists, we may be down for maintenance.";
 
-  box.appendChild(errorEl);
-  box.appendChild(errorinfoEl);
-  box.appendChild(errormsgEl);
-  box.appendChild(errorbtnEl);
-  output.appendChild(box);
+    const codeEl = document.createElement('div');
+    codeEl.classList.add('error-msg');
+    codeEl.innerText = "Code: " + event.code;
+
+    const btnEl = document.createElement('button');
+    btnEl.classList.add('error-btn');
+    btnEl.onclick = refreshPage;
+    btnEl.innerText = "Refresh Page";
+
+    box.appendChild(titleEl);
+    box.appendChild(infoEl);
+    box.appendChild(codeEl);
+    box.appendChild(btnEl);
+
+    errors.appendChild(box);
+
+  } else {
+    // There are existing events: show stashed notice only
+    const box = document.createElement('div');
+    box.classList.add('error-box');
+
+    const infoEl = document.createElement('div');
+    infoEl.classList.add('error-info');
+    infoEl.appendChild(document.createTextNode("Connection lost. Visible events are stashed. Try "));
+
+    const reloadLink = document.createElement('a');
+    reloadLink.href = "#";
+    reloadLink.innerText = "reloading the page";
+    reloadLink.onclick = (e) => {
+      e.preventDefault();
+      window.location.reload();
+    };
+    infoEl.appendChild(reloadLink);
+
+    infoEl.appendChild(document.createTextNode("."));
+
+    box.appendChild(infoEl);
+    errors.prepend(box);
+  }
 };
 
-// Device overlay for mobile users
 function refreshPage() {
   location.reload();
 };
