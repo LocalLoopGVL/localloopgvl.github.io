@@ -33,7 +33,7 @@ socket.addEventListener('message', (event) => {
   }
 
   if (message.type === 'init') {
-    message.events.forEach(createEventBox);
+    message.events.sort((a, b) => Number(a.time) - Number(b.time)).forEach(createEventBox);
   }
 
   if (message.type === 'new') {
@@ -41,6 +41,9 @@ socket.addEventListener('message', (event) => {
   }
 
   if (message.type === 'error') {
+    modalOverlay.classList.add('hidden');
+    sendBtn.disabled = false;
+    sendBtn.innerText = "Send";
     accessModal.classList.remove('hidden');
   }
 });
@@ -105,7 +108,7 @@ function createEventBox(data) {
   box.appendChild(wrapper);
   box.appendChild(interestEl);
 
-  output.appendChild(box);
+  output.prepend(box);
 }
 
 sendBtn.addEventListener('click', () => {
