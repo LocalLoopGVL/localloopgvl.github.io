@@ -33,7 +33,7 @@ socket.addEventListener('message', (event) => {
   }
 
   if (message.type === 'init') {
-    message.events.sort((a, b) => Number(a.time) - Number(b.time)).forEach(createEventBox);
+    message.events.sort((a, b) => Number(b.time) - Number(a.time)).forEach(createEventBox);
   }
 
   if (message.type === 'new') {
