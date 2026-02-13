@@ -8,8 +8,10 @@ const closeAccessBtn = document.getElementById('closeAccess');
 const sendBtn = document.getElementById('send');
 const errors = document.getElementById('errors');
 
-const socket = new WebSocket('https://carly-vaned-christiana.ngrok-free.dev');
+/* ---------------- WEBSOCKET ---------------- */
+const socket = new WebSocket('wss://carly-vaned-christiana.ngrok-free.dev');
 
+/* ---------------- UI ---------------- */
 openModalBtn.addEventListener('click', () => {
   modalOverlay.classList.remove('hidden');
 });
@@ -22,8 +24,30 @@ closeAccessBtn.addEventListener('click', () => {
   accessModal.classList.add('hidden');
 });
 
+/* ---------------- SESSION VALIDATION ---------------- */
+socket.addEventListener('open', () => {
+  const loginId = localStorage.getItem('loginId');
+
+  if (loginId) {
+    socket.send(JSON.stringify({
+      type: 'validate_session',
+      loginId
+    }));
+  }
+});
+
+/* ---------------- MESSAGE HANDLER ---------------- */
 socket.addEventListener('message', (event) => {
   const message = JSON.parse(event.data);
+
+  if (message.type === 'session_valid') {
+    ;
+  }
+
+  if (message.type === 'session_invalid') {
+    localStorage.removeItem('loginId');
+    accessModal.classList.remove('hidden');
+  }
 
   if (message.type === 'success') {
     modalOverlay.classList.add('hidden');
@@ -48,17 +72,14 @@ socket.addEventListener('message', (event) => {
   }
 });
 
+/* ---------------- DATE FORMAT ---------------- */
 function formatUnixDate(unix) {
   const date = new Date(unix * 1000);
 
   const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "January","February","March","April","May","June",
+    "July","August","September","October","November","December"
   ];
-
-  const month = months[date.getMonth()];
-  const day = date.getDate();
-  const year = date.getFullYear();
 
   let hours = date.getHours();
   const minutes = String(date.getMinutes()).padStart(2, '0');
@@ -66,9 +87,10 @@ function formatUnixDate(unix) {
   const ampm = hours >= 12 ? "PM" : "AM";
   hours = hours % 12 || 12;
 
-  return `${month} ${day}, ${year} • ${hours}:${minutes} ${ampm}`;
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} • ${hours}:${minutes} ${ampm}`;
 }
 
+/* ---------------- EVENT BOX ---------------- */
 function createEventBox(data) {
   const box = document.createElement('div');
   box.classList.add('event-box');
@@ -99,141 +121,70 @@ function createEventBox(data) {
   interestEl.classList.add('event-interest');
   interestEl.innerText = 'Get notified!';
 
-  wrapper.appendChild(nameEl);
-  wrapper.appendChild(dateEl);
-  wrapper.appendChild(locationEl);
-  wrapper.appendChild(descEl);
-  wrapper.appendChild(companyEl);
-
-  box.appendChild(wrapper);
-  box.appendChild(interestEl);
+  wrapper.append(nameEl, dateEl, locationEl, descEl, companyEl);
+  box.append(wrapper, interestEl);
 
   output.prepend(box);
 }
 
+/* ---------------- CREATE EVENT ---------------- */
 sendBtn.addEventListener('click', () => {
+  const loginId = localStorage.getItem('loginId');
+  const userId = localStorage.getItem('userId');
+
+  if (!loginId || !userId) {
+    accessModal.classList.remove('hidden');
+    return;
+  }
+
   const dateVal = document.getElementById('date').value;
   const timeVal = document.getElementById('time').value;
-  
+
   const requiredFields = [
-    'name',
-    'date',
-    'time',
-    'description',
-    'company',
-    'street',
-    'city',
-    'state',
-    'access'
+    'name','date','time','description',
+    'company','street','city','state'
   ];
-  
+
   let hasErrors = false;
-  
+
   requiredFields.forEach(id => {
     const el = document.getElementById(id);
-    el?.addEventListener('input', () => {
-      if (el.value.trim()) {
-        el.classList.remove('error');
-      }
-    });
-  });
-  
-  requiredFields.forEach(id => {
-    const el = document.getElementById(id);
-  
     if (!el || !el.value.trim()) {
       hasErrors = true;
       el?.classList.add('fielderror');
-    } else {
-      el.classList.remove('fielderror');
     }
   });
-  
-  if (hasErrors) {
-    return;
-  }
-  
-  const combined = new Date(`${dateVal}T${timeVal}`);
-  const unixTime = Math.floor(combined.getTime() / 1000);
+
+  if (hasErrors) return;
+
+  const unixTime = Math.floor(new Date(`${dateVal}T${timeVal}`).getTime() / 1000);
 
   const data = {
+    type: 'create_event',
+    loginId,
+    userId,
     name: document.getElementById('name').value,
     time: unixTime,
     description: document.getElementById('description').value,
     company: document.getElementById('company').value,
     street: document.getElementById('street').value,
     city: document.getElementById('city').value,
-    state: document.getElementById('state').value,
-    access: document.getElementById('access').value,
+    state: document.getElementById('state').value
   };
 
   socket.send(JSON.stringify(data));
+
   sendBtn.disabled = true;
   sendBtn.innerText = "Posting...";
 });
 
-
+/* ---------------- CONNECTION FAIL ---------------- */
 socket.onclose = (event) => {
   sendBtn.disabled = false;
   sendBtn.innerText = "Send";
-
-  const hasContent = output.children.length > 0;
-
-  if (!hasContent) {
-    // Nothing in output: show error screen
-    output.classList.add('hidden');
-    const box = document.createElement('div');
-    box.classList.add('error-box');
-
-    const titleEl = document.createElement('div');
-    titleEl.classList.add('error');
-    titleEl.innerText = "Uh oh!";
-
-    const infoEl = document.createElement('div');
-    infoEl.classList.add('error-info');
-    infoEl.innerText = "Something went wrong with the WebSocket connection. Try reloading the page. If the problem persists, we may be down for maintenance.";
-
-    const codeEl = document.createElement('div');
-    codeEl.classList.add('error-msg');
-    codeEl.innerText = "Code: " + event.code;
-
-    const btnEl = document.createElement('button');
-    btnEl.classList.add('error-btn');
-    btnEl.onclick = refreshPage;
-    btnEl.innerText = "Refresh Page";
-
-    box.appendChild(titleEl);
-    box.appendChild(infoEl);
-    box.appendChild(codeEl);
-    box.appendChild(btnEl);
-
-    errors.appendChild(box);
-
-  } else {
-    // There are existing events: show stashed notice only
-    const box = document.createElement('div');
-    box.classList.add('error-box');
-
-    const infoEl = document.createElement('div');
-    infoEl.classList.add('error-info');
-    infoEl.appendChild(document.createTextNode("Connection lost. Visible events are stashed. Try "));
-
-    const reloadLink = document.createElement('a');
-    reloadLink.href = "#";
-    reloadLink.innerText = "reloading the page";
-    reloadLink.onclick = (e) => {
-      e.preventDefault();
-      window.location.reload();
-    };
-    infoEl.appendChild(reloadLink);
-
-    infoEl.appendChild(document.createTextNode("."));
-
-    box.appendChild(infoEl);
-    errors.prepend(box);
-  }
+  console.log("WS closed:", event.code);
 };
 
 function refreshPage() {
   location.reload();
-};
+}

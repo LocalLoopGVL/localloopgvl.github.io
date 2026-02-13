@@ -5,9 +5,11 @@ const sidebar = document.getElementById('side');
 const active = document.getElementById('active');
 const body = document.body;
 
+/* ---------------- SAVED SETTINGS ---------------- */
 const savedTheme = localStorage.getItem('theme');
 const savedMotion = localStorage.getItem('motion');
 
+/* ---------------- INITIAL ANIMATION ---------------- */
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     layout.classList.add('open');
@@ -16,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 0);
 });
 
+/* ---------------- NAVIGATION ---------------- */
 back.addEventListener('click', () => {
   layout.classList.remove('open');
   ui.classList.remove('open');
@@ -28,7 +31,7 @@ active.addEventListener('click', () => {
   sidebar.classList.add('nav-fx');
 });
 
-// Theme handling
+/* ---------------- THEME HANDLING ---------------- */
 if (savedTheme === 'dark') {
   body.classList.add('dark');
 } else if (savedTheme === 'light') {
@@ -45,8 +48,8 @@ if (savedTheme === 'dark') {
   }
 }
 
-// Motion handling
+/* ---------------- MOTION HANDLING ---------------- */
 if (savedMotion === 'reduced') {
   body.classList.add('reduced');
-  toggleMotion.checked = true;
+  if (typeof toggleMotion !== 'undefined') toggleMotion.checked = true;
 }

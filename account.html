@@ -39,12 +39,24 @@
       <div class="page">
         <span> Account </span>
       </div>
-      <div class="posted"> 
-        <span> This feature is currently being worked on! </span>
+      <div class="posted hidden" id="accountForm"> 
+        <input id="email" type="email" placeholder="Email">
+        <input id="password" type="password" placeholder="Password">
+        <div id="accountError"></div>
+        <div class="inline">
+          <button id="signup">Create Account</button>
+          <button id="login">Log In</button>
+        </div>
+      </div>
+
+      <div class="posted hidden" id="loggedInMsg">
+        <span id="loggedInText"></span>
+        <button id="logout">Log Out</button>
       </div>
     </main>
   </div>
   
+  <script src="/javascript/account.js"></script>
   <script src="/javascript/global.js"></script>
 </body>
 </html>

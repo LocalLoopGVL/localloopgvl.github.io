@@ -74,6 +74,33 @@ body {
   overflow-x: hidden;
 }
 
+/* Global */
+input {
+  padding: 8px;
+  border-radius: 8px;
+  background-color: var(--bg);
+  border: none;
+  color: var(--text);
+  outline: solid 2px #4980f700;
+  transition: outline 0.3s ease;
+  height: 2rem;
+  width: 100%;
+}
+
+input:focus {
+  display: flex;
+  outline: solid 2px #4980f7;
+}
+
+button {
+  padding: 8px 12px;
+  border: none;
+  color: #fff;
+  background-color: #4980f7;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
 /* Sidebar */
 .sidebar {
   width: 350px;
@@ -272,20 +299,8 @@ span#active:hover {
   outline: solid 1px var(--item);
 }
 
-input {
-  padding: 8px;
-  border-radius: 8px;
+.modal input {
   background-color: var(--input);
-  border: none;
-  color: var(--text);
-  outline: solid 2px #4980f700;
-  transition: outline 0.3s ease;
-  height: 2rem;
-}
-
-input:focus {
-  display: flex;
-  outline: solid 2px #4980f7;
 }
 
 .fielderror {
@@ -380,7 +395,13 @@ input:focus {
 .event-desc {
   font-size: 16px;
   margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
+
 
 .event-company {
   font-size: 14px;

@@ -1,6 +1,7 @@
 const toggleTheme = document.getElementById('toggleTheme');
 const toggleMotion = document.getElementById('toggleMotion');
 
+/* ---------------- INITIAL STATE ---------------- */
 if (savedTheme === 'dark') {
   body.classList.add('dark');
   toggleTheme.checked = true;
@@ -11,6 +12,7 @@ if (savedMotion === 'reduced') {
   toggleMotion.checked = true;
 }
 
+/* ---------------- EVENT LISTENERS ---------------- */
 toggleTheme.addEventListener('change', () => {
   if (toggleTheme.checked) {
     body.classList.add('dark');
