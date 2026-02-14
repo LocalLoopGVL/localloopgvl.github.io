@@ -10,70 +10,103 @@
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap" rel="stylesheet">
 </head>
 <body>
+
   <!-- Side Bar -->
-  <header class="sidebar" id="side">
+  <nav class="sidebar" id="side">
     <div class="logo">
       <span>Local Loop</span>
     </div>
+
     <div class="nav">
       <a href="account.html"><div></div>Account</a>
       <a href="settings.html"><div></div>Settings</a>
     </div>
+
     <div class="nav">
-      <span id="active"><div></div>Discover</span>
+      <span id="active" aria-current="page"><div></div>Discover</span>
       <a href="about.html"><div></div>About</a>
       <a href="contact.html"><div></div>Contact</a>
     </div>
+
     <div class="nav">
       <a href="guidelines.html"><div></div>Guidelines</a>
       <a href="policy.html"><div></div>Privacy Policy</a>
     </div>
-  </header>
+  </nav>
 
   <!-- Layout -->
   <div class="ui" id="ui">
-    <img src="/assets/back_arrow.svg" alt="back" id="back" class="mobile-back"/>
-    <img src="/assets/add.svg" alt="add" id="openModal" class="add-event"/>
+    <button id="back" class="mobile-back" aria-label="Go back">
+      <img src="/assets/back_arrow.svg" alt="">
+    </button>
+    <button id="openModal" class="add-event" aria-label="Add event">
+      <img src="/assets/add.svg" alt="">
+    </button>
   </div>
+
   <div class="layout" id="layout">
     <main class="content">
-      <div class="page">
-        <span> Discover </span>
-      </div>
-      <div id="errors"> </div>
-      <div id="output" class="event-grid">
+      <header class="page">
+        <h1>Discover</h1>
+      </header>
+
+      <div id="errors" aria-live="polite"></div>
+
+      <section id="output" class="event-grid">
         <!-- event cards created here -->
-      </div>
-      <div class="footer"> Thats all for now. </div>
+      </section>
+
+      <footer class="footer">
+        That's all for now.
+      </footer>
     </main>
   </div>
 
   <!-- Modal -->
   <div id="modalOverlay" class="modal-overlay hidden">
-    <div class="modal">
+    <form class="modal" id="eventForm" role="dialog" aria-modal="true" aria-labelledby="modalTitle" novalidate>
+
+      <h2 id="modalTitle">Create Event</h2>
+
+      <label for="name" class="sr-only">Event name</label>
       <input type="text" id="name" placeholder="Name">
+
       <div class="inline">
-        <input type="date" id="date" placeholder="MM/DD/YYYY"> 
+        <label for="date" class="sr-only">Event date</label>
+        <input type="date" id="date">
+
         @
-        <input type="time" id="time" placeholder="HH:MM">
+
+        <label for="time" class="sr-only">Event time</label>
+        <input type="time" id="time">
       </div>
+
       <div class="inline">
+        <label for="street" class="sr-only">Event street</label>
         <input id="street" placeholder="123 Main St">
+
+        <label for="city" class="sr-only">Event city</label>
         <input id="city" placeholder="Greenville">
+
+        <label for="state" class="sr-only">Event state</label>
         <input id="state" placeholder="SC">
       </div>
-      <input type="text" id="description" placeholder="Briefly describe your event...">
+
+      <label for="description" class="sr-only">Event description</label>
+      <textarea id="description" placeholder="Briefly describe your event..."></textarea>
+
+      <label for="company" class="sr-only">Event host</label>
       <input type="text" id="company" placeholder="Event host">
 
       <div class="modal-actions">
-        <button id="closeModal">Close</button>
-        <button id="send">Send</button>
+        <button type="button" id="closeModal">Close</button>
+        <button type="submit" id="send">Send</button>
       </div>
-    </div>
+    </form>
   </div>
 
-  <div id="accessModal" class="accessModal hidden">
-    <span> Err: No login |</span>
+  <div id="accessModal" class="accessModal hidden" role="alertdialog" aria-modal="true">
+    <span>Err: No login |</span>
     <button id="closeAccess">Close</button>
   </div>
 

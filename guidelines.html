@@ -25,24 +25,37 @@
       <a href="contact.html"><div></div>Contact</a>
     </div>
     <div class="nav">
-      <span id="active"><div></div>Guidelines</span>
+      <span id="active" aria-current="page"><div></div>Guidelines</span>
       <a href="policy.html"><div></div>Privacy Policy</a>
     </div>
   </header>
 
   <!-- Layout -->
   <div class="ui" id="ui">
-    <img src="/assets/back_arrow.svg" alt="back" id="back" class="mobile-back"/>
+    <button id="back" class="mobile-back" aria-label="Go back">
+      <img src="/assets/back_arrow.svg" alt="">
+    </button>
   </div>
+
   <div class="layout" id="layout">
     <main class="content">
-      <div class="page">
-        <span> Guidelines </span>
-      </div>
-      <div class="posted">
-        <span> <strong>Be Relevant:</strong> This is a place for events, deals, and community gatherings. <br> <strong>Be Clear:</strong> Be sure to tell people about your event in its description. Try to keep it short but informative. <br> <strong>Be Respectful:</strong> No offensive, harmful, or discriminatory content. <br> <strong>No Spam:</strong> Try to avoid repeated posts or unrelated promotions. <br> <strong>Check Details:</strong> Make sure all times and locations are correct before posting. </span>
-      </div>
-      <div class="footer"> Failure to comply with these guidelines will result in a post deletion </div>
+      <header class="page">
+        <h1>Guidelines</h1>
+      </header>
+
+      <section class="posted">
+        <ol>
+          <li><strong>Be Relevant:</strong> This is a place for events, deals, and community gatherings.</li>
+          <li><strong>Be Clear:</strong> Be sure to tell people about your event in its description. Try to keep it short but informative.</li>
+          <li><strong>Be Respectful:</strong> No offensive, harmful, or discriminatory content.</li>
+          <li><strong>No Spam:</strong> Try to avoid repeated posts or unrelated promotions.</li>
+          <li><strong>Check Details:</strong> Make sure all times and locations are correct before posting.</li>
+        </ol>
+      </section>
+
+      <footer class="footer">
+        Failure to comply with these guidelines will result in a post deletion.
+      </footer>
     </main>
   </div>
   

@@ -21,7 +21,7 @@
     </div>
     <div class="nav">
       <a href="index.html"><div></div>Discover</a>
-      <span id="active"><div></div>About</span>
+      <span id="active" aria-current="page"><div></div>About</span>
       <a href="contact.html"><div></div>Contact</a>
     </div>
     <div class="nav">
@@ -32,23 +32,28 @@
 
   <!-- Layout -->
   <div class="ui" id="ui">
-    <img src="/assets/back_arrow.svg" alt="back" id="back" class="mobile-back"/>
+    <button id="back" class="mobile-back" aria-label="Go back">
+      <img src="/assets/back_arrow.svg" alt="">
+    </button>
   </div>
+
   <div class="layout" id="layout">
     <main class="content">
-      <div class="page">
-        <span> About </span>
-      </div>
-      <div class="section"> What is Local Loop? </div>
+      <header class="page">
+        <h1>About</h1>
+      </header>
+
+      <h2 class="section">What is Local Loop?</h2>
       <div class="posted"> 
-        <span> Local Loop was created to help Greenville residents and visitors easily discover and share community events, special deals, and activities. Our goal is to make connecting with your community simple and enjoyable. </span>
+        <span>Local Loop was created to help Greenville residents and visitors easily discover and share community events, special deals, and activities. Our goal is to make connecting with your community simple and enjoyable.</span>
       </div>
       <div class="posted"> 
-        <span> Anyone can post events that follow our <a href="/guidelines.html">guidelines</a>. Browse events by tags, date, or location, and click "Get notified!" to receive an email reminder before an event starts. Local Loop is designed to be simple, fast, and accessible to everyone in the community. </span>
+        <span>Anyone can post events that follow our <a href="/guidelines.html">guidelines</a>. Browse events by tags, date, or location, and click "Get notified!" to receive an email reminder before an event starts. Local Loop is designed to be simple, fast, and accessible to everyone in the community.</span>
       </div>
-      <div class="section"> About the developer </div>
+
+      <h2 class="section">About the developer</h2>
       <div class="posted"> 
-        <span> Hi, I'm Isaac. I developed LocalLoop as my senior project to help bring the Greenville community closer together. I built this platform using HTML, CSS, JavaScript, and Node.js. My goal with LocalLoop was to make it easy for anyone to discover and share local event, while keeping the experience simple and user-friendly. </span>
+        <span>Hi, I'm Isaac. I developed Local Loop as my senior project to help bring the Greenville community closer together. I built this platform using HTML, CSS, JavaScript, and Node.js. My goal with Local Loop was to make it easy for anyone to discover and share local events, while keeping the experience simple and user-friendly.</span>
       </div>
     </main>
   </div>

@@ -38,10 +38,15 @@ function sendAccount(type) {
   socket.send(JSON.stringify(data));
 }
 
-/* ---------------- EVENT LISTENERS ---------------- */
-signupBtn.addEventListener('click', () => sendAccount('signup'));
-loginBtn.addEventListener('click', () => sendAccount('login'));
+/* ---------------- FORM SUBMIT HANDLER ---------------- */
+accountForm.addEventListener('submit', (e) => {
+  e.preventDefault();
 
+  if (document.activeElement === signupBtn) sendAccount('signup');
+  else if (document.activeElement === loginBtn) sendAccount('login');
+});
+
+/* ---------------- LOGOUT ---------------- */
 logoutBtn.addEventListener('click', () => {
   const loginId = localStorage.getItem('loginId');
   if (!loginId) return;
@@ -54,8 +59,8 @@ logoutBtn.addEventListener('click', () => {
   localStorage.removeItem('loginId');
   localStorage.removeItem('userId');
 
-  document.getElementById('accountForm').classList.remove('hidden');
-  document.getElementById('loggedInMsg').classList.add('hidden');
+  accountForm.classList.remove('hidden');
+  loggedInMsg.classList.add('hidden');
 });
 
 /* ---------------- WEBSOCKET MESSAGE HANDLER ---------------- */
@@ -64,7 +69,6 @@ socket.addEventListener('message', (event) => {
 
   /* ---------- SESSION VALID ---------- */
   if (message.type === 'session_valid') {
-
     accountForm.classList.add('hidden');
     loggedInMsg.classList.remove('hidden');
     loggedInText.innerText = `You're logged in as ${message.email}`;
@@ -73,7 +77,6 @@ socket.addEventListener('message', (event) => {
   /* ---------- SESSION INVALID ---------- */
   if (message.type === 'session_invalid') {
     localStorage.removeItem('loginId');
-
     accountForm.classList.remove('hidden');
     loggedInMsg.classList.add('hidden');
   }
@@ -96,9 +99,6 @@ socket.addEventListener('message', (event) => {
 
 /* ---------------- CONNECTION FAIL ---------------- */
 socket.onclose = (event) => {
-  loggedInMsg.classList.add('hidden');
-  accountForm.classList.add('hidden');
-
   const box = document.createElement('div');
   box.classList.add('error-box');
 
@@ -124,6 +124,9 @@ socket.onclose = (event) => {
   box.appendChild(codeEl);
   box.appendChild(btnEl);
   errors.appendChild(box);
+
+  loggedInMsg.classList.add('hidden');
+  accountForm.classList.add('hidden');
 };
 
 function refreshPage() {

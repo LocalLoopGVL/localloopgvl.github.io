@@ -16,7 +16,7 @@
       <span>Local Loop</span>
     </div>
     <div class="nav">
-      <span id="active"><div></div>Account</span>
+      <span id="active" aria-current="page"><div></div>Account</span>
       <a href="settings.html"><div></div>Settings</a>
     </div>
     <div class="nav">
@@ -32,31 +32,42 @@
 
   <!-- Layout -->
   <div class="ui" id="ui">
-    <img src="/assets/back_arrow.svg" alt="back" id="back" class="mobile-back"/>
+    <button id="back" class="mobile-back" aria-label="Go back">
+      <img src="/assets/back_arrow.svg" alt="">
+    </button>
   </div>
+
   <div class="layout" id="layout">
     <main class="content">
-      <div class="page">
-        <span> Account </span>
-      </div>
-      <div id="errors"> </div>
-      <div class="posted hidden" id="accountForm"> 
-        <input id="email" type="email" placeholder="Email">
-        <input id="password" type="password" placeholder="Password">
-        <div id="accountError"></div>
-        <div class="inline">
-          <button id="signup">Create Account</button>
-          <button id="login">Log In</button>
-        </div>
-      </div>
+      <header class="page">
+        <h1>Account</h1>
+      </header>
+      <div id="errors"></div>
 
+      <!-- ACCOUNT FORM -->
+      <form id="accountForm" class="posted hidden" novalidate>
+        <label for="email" class="sr-only">Email</label>
+        <input id="email" type="email" placeholder="Email">
+
+        <label for="password" class="sr-only">Password</label>
+        <input id="password" type="password" placeholder="Password">
+
+        <div id="accountError"></div>
+
+        <div class="inline">
+          <button type="submit" id="signup">Create Account</button>
+          <button type="submit" id="login">Log In</button>
+        </div>
+      </form>
+
+      <!-- LOGGED IN MESSAGE -->
       <div class="posted hidden" id="loggedInMsg">
         <span id="loggedInText"></span>
-        <button id="logout">Log Out</button>
+        <button type="button" id="logout">Log Out</button>
       </div>
     </main>
   </div>
-  
+
   <script src="/javascript/account.js"></script>
   <script src="/javascript/global.js"></script>
 </body>

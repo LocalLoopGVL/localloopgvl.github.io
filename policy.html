@@ -26,113 +26,122 @@
     </div>
     <div class="nav">
       <a href="guidelines.html"><div></div>Guidelines</a>
-      <span id="active"><div></div>Privacy Policy</span>
+      <span id="active" aria-current="page"><div></div>Privacy Policy</span>
     </div>
   </header>
 
   <!-- Layout -->
   <div class="ui" id="ui">
-    <img src="/assets/back_arrow.svg" alt="back" id="back" class="mobile-back"/>
+    <button id="back" class="mobile-back" aria-label="Go back">
+      <img src="/assets/back_arrow.svg" alt="">
+    </button>
   </div>
+  
   <div class="layout" id="layout">
     <main class="content">
-      <div class="page">
-        <span> Privacy Policy </span>
-      </div>
-      <div class="section"> Last updated: February 12, 2026 </div>
+      <header class="page">
+        <h1>Privacy Policy</h1>
+      </header>
+
+      <h2 class="section">Last updated: February 12, 2026</h2>
       <div class="posted"> 
-        <span> Your privacy is extremely important to us. This page explains what information we collect, how we use it, and how we protect it. </span>
+        <p>Your privacy is extremely important to us. This page explains what information we collect, how we use it, and how we protect it.</p>
       </div>
-      <div class="section"> Information We Collect </div>
+
+      <h2 class="section">Information We Collect</h2>
       <div class="posted"> 
-        <span>
-          <strong>Account Information</strong><br>
-          When you create an account, we collect:<br>
-          • Your email address<br>
-          • Your password (stored in hashed form)<br>
-          Your password is <strong>never</strong> stored in plain text. It is securely hashed before being saved.
-        </span>
+        <p><strong>Account Information</strong></p>
+        <ul>
+          <li>Your email address</li>
+          <li>Your password (stored in hashed form)</li>
+        </ul>
+        <p>Your password is <strong>never</strong> stored in plain text. It is securely hashed before being saved.</p>
       </div>
+
       <div class="posted"> 
-        <span>
-          <strong>Event Information</strong><br>
-          When you post an event, we store the information you provide, such as the event name, description, host name, and address. This information is publicly visible to other users. No other information is collected that you don't provide.
-        </span>
+        <p><strong>Event Information</strong></p>
+        <p>When you post an event, we store the information you provide, such as the event name, description, host name, and address. This information is publicly visible to other users. No other information is collected that you don't provide.</p>
       </div>
+
       <div class="posted"> 
-        <span>
-          <strong>Miscellaneous</strong><br>
-          We may use certain browser-provided features to improve your experience on the platform. This includes:<br>
-          • Preferred Theme<br>
-          • Local Storage<br>
-          This information is stored locally in your browser and is not transmitted to or stored on our servers. We do not use tracking cookies or third-party analytics services.
-        </span>
+        <p><strong>Miscellaneous</strong></p>
+        <p>We may use certain browser-provided features to improve your experience on the platform. This includes:</p>
+        <ul>
+          <li>Preferred Theme</li>
+          <li>Local Storage</li>
+        </ul>
+        <p>This information is stored locally in your browser and is not transmitted to or stored on our servers. We do not use tracking cookies or third-party analytics services.</p>
       </div>
-      <div class="section"> How Your Information is Used </div>
+
+      <h2 class="section">How Your Information is Used</h2>
       <div class="posted"> 
-        <span>
-          We use collected data to:<br>
-          • Create and manage user accounts<br>
-          • Securely authenticate users<br>
-          • Display events you post<br>
-          • Maintain and improve the platform<br>
-          We do not sell, rent, or trade your personal information. We process your information to provide the services you request and to operate the platform. This platform is not intended for children under 13 years of age.
-        </span>
+        <p><strong>Data Usage</strong></p>
+        <p>We use collected data to:</p>
+        <ul>
+          <li>Create and manage user accounts</li>
+          <li>Securely authenticate users</li>
+          <li>Display events you post</li>
+          <li>Maintain and improve the platform</li>
+        </ul>
+        <p>We do not sell, rent, or trade your personal information. We process your information to provide the services you request and to operate the platform. This platform is not intended for children under 13 years of age.</p>
       </div>
-      <div class="section"> Your Data </div>
+
+      <h2 class="section">Your Data</h2>
       <div class="posted">
-        <span>
-          <strong>Data Storage</strong><br>
-          Your information is stored securely on our server. This includes event information, account information, and notify lists. Passwords are hashed using secure methods. Event data may be checked to maintain a safe and stable environment. We retain your information for as long as your account remains active. 
-        </span>
+        <p><strong>Data Storage</strong></p>
+        <p>Your information is stored securely on our server. This includes event information, account information, and notify lists. Passwords are hashed using secure methods. Event data may be checked to maintain a safe and stable environment. We retain your information for as long as your account remains active.</p>
       </div>
+
       <div class="posted">
-        <span>
-          <strong>Data Security</strong><br>
-          We take reasonable steps to protect your information, including:<br>
-          • Password hashing<br>
-          • Server-side authentication<br>
-          • Secure data handling practices<br>
-          No system can guarantee 100% security, but we try our absolute best. All data is stored on privately controlled infrastructure operated directly by us. We use a secure tunneling service to make the platform accessible over the internet. This service transmits encrypted traffic between users and our server and only processes data as necessary to route secure connections. If we become aware of a security breach affecting your personal information, we will notify affected users as required by applicable law.
-        </span>
+        <p><strong>Data Security</strong></p>
+        <p>We take reasonable steps to protect your information, including:</p>
+        <ul>
+          <li>Password hashing</li>
+          <li>Server-side authentication</li>
+          <li>Secure data handling practices</li>
+        </ul>
+        <p>No system can guarantee 100% security, but we try our absolute best. All data is stored on privately controlled infrastructure operated directly by us. We use a secure tunneling service to make the platform accessible over the internet. This service transmits encrypted traffic between users and our server and only processes data as necessary to route secure connections. If we become aware of a security breach affecting your personal information, we will notify affected users as required by applicable law.</p>
       </div>
+
       <div class="posted">
-        <span>
-          <strong>User Rights</strong><br>
-          You may request to:<br>
-          • Access your stored account information<br>
-          • Correct inaccurate information<br>
-          • Delete your account and associated data<br>
-          When your account is deleted, your personal information will be permanently removed from our systems. To make a request, please <a href="/contact.html">contact us</a>. 
-        </span>
+        <p><strong>User Rights</strong></p>
+        <p>You may request to:</p>
+        <ul>
+          <li>Access your stored account information</li>
+          <li>Correct inaccurate information</li>
+          <li>Delete your account and associated data</li>
+        </ul>
+        <p>When your account is deleted, your personal information will be permanently removed from our systems. To make a request, please <a href="/contact.html">contact us</a>.</p>
       </div>
-      <div class="section"> Public vs Private </div>
+
+      <h2 class="section">Public vs Private</h2>
       <div class="posted"> 
-        <span>
-          <strong>Public Information</strong><br>
-          • Event details<br>
-        </span>
-        <span>
-          <strong>Private Information</strong><br>
-          • Email addresses<br>
-          • Passwords<br>
-          • Other account information<br>
-        </span>
+        <p><strong>Public Information</strong></p>
+        <ul>
+          <li>Event details</li>
+        </ul>
+        <p><strong>Private Information</strong></p>
+        <ul>
+          <li>Email addresses</li>
+          <li>Passwords</li>
+          <li>Other account information</li>
+        </ul>
       </div>
-      <div class="section"> Changes & Support </div>
+
+      <h2 class="section">Changes & Support</h2>
       <div class="posted"> 
-        <span>
-          <strong>Changes to This Policy</strong><br>
-          We may update this Privacy Policy as the platform evolves. Changes will be reflected on this page with an updated revision date.
-        </span>
+        <p><strong>Changes to This Policy</strong></p>
+        <p>We may update this Privacy Policy as the platform evolves. Changes will be reflected on this page with an updated revision date.</p>
       </div>
+
       <div class="posted"> 
-        <span>
-          <strong>Contact</strong><br>
-          If you have any questions about your privacy or data, please feel free to <a href="/contact.html">contact us</a>. 
-        </span>
+        <p><strong>Contact</strong></p>
+        <p>If you have any questions about your privacy or data, please feel free to <a href="/contact.html">contact us</a>.</p>
       </div>
-      <div class="footer"> This Privacy Policy is governed by the laws of the United States of America. </div>
+
+      <footer class="footer">
+        This Privacy Policy is governed by the laws of the United States of America.
+      </footer>
     </main>
   </div>
   

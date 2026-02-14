@@ -3,8 +3,12 @@ const output = document.getElementById('output');
 const openModalBtn = document.getElementById('openModal');
 const closeModalBtn = document.getElementById('closeModal');
 const modalOverlay = document.getElementById('modalOverlay');
+const eventForm = document.getElementById('eventForm');
+
 const accessModal = document.getElementById('accessModal');
 const closeAccessBtn = document.getElementById('closeAccess');
+const description = document.getElementById('description');
+
 const sendBtn = document.getElementById('send');
 const errors = document.getElementById('errors');
 
@@ -24,6 +28,11 @@ closeAccessBtn.addEventListener('click', () => {
   accessModal.classList.add('hidden');
 });
 
+description.addEventListener('input', () => {
+  description.style.height = 'auto';
+  description.style.height = description.scrollHeight + 'px';
+});
+
 /* ---------------- SESSION VALIDATION ---------------- */
 socket.addEventListener('open', () => {
   const loginId = localStorage.getItem('loginId');
@@ -40,10 +49,6 @@ socket.addEventListener('open', () => {
 socket.addEventListener('message', (event) => {
   const message = JSON.parse(event.data);
 
-  if (message.type === 'session_valid') {
-    ;
-  }
-
   if (message.type === 'session_invalid') {
     localStorage.removeItem('loginId');
     accessModal.classList.remove('hidden');
@@ -53,11 +58,15 @@ socket.addEventListener('message', (event) => {
     modalOverlay.classList.add('hidden');
     sendBtn.disabled = false;
     sendBtn.innerText = "Send";
+
     document.querySelectorAll('#modalOverlay input').forEach(el => el.value = '');
+    document.getElementById('description').value = '';
   }
 
   if (message.type === 'init') {
-    message.events.sort((a, b) => Number(b.time) - Number(a.time)).forEach(createEventBox);
+    message.events
+      .sort((a, b) => Number(b.time) - Number(a.time))
+      .forEach(createEventBox);
   }
 
   if (message.type === 'new') {
@@ -128,15 +137,10 @@ function createEventBox(data) {
 }
 
 /* ---------------- CREATE EVENT ---------------- */
-sendBtn.addEventListener('click', () => {
+eventForm.addEventListener('submit', (e) => {
+  e.preventDefault();
   const loginId = localStorage.getItem('loginId');
   const userId = localStorage.getItem('userId');
-
-  if (!loginId || !userId) {
-    accessModal.classList.remove('hidden');
-    return;
-  }
-
   const dateVal = document.getElementById('date').value;
   const timeVal = document.getElementById('time').value;
 
@@ -157,7 +161,14 @@ sendBtn.addEventListener('click', () => {
 
   if (hasErrors) return;
 
-  const unixTime = Math.floor(new Date(`${dateVal}T${timeVal}`).getTime() / 1000);
+  if (!loginId || !userId) {
+    accessModal.classList.remove('hidden');
+    return;
+  }
+
+  const unixTime = Math.floor(
+    new Date(`${dateVal}T${timeVal}`).getTime() / 1000
+  );
 
   const data = {
     type: 'create_event',
@@ -180,8 +191,11 @@ sendBtn.addEventListener('click', () => {
 
 /* ---------------- CONNECTION FAIL ---------------- */
 socket.onclose = (event) => {
-  sendBtn.disabled = false; sendBtn.innerText = "Send";
+  sendBtn.disabled = false;
+  sendBtn.innerText = "Send";
+
   const hasContent = output.children.length > 0;
+
   if (!hasContent) {
     output.classList.add('hidden');
 
@@ -194,7 +208,8 @@ socket.onclose = (event) => {
 
     const infoEl = document.createElement('div');
     infoEl.classList.add('error-info');
-    infoEl.innerText = "Something went wrong with the WebSocket connection. Try reloading the page. If the problem persists, we may be down for maintenance.";
+    infoEl.innerText =
+      "Something went wrong with the WebSocket connection. Try reloading the page.";
 
     const codeEl = document.createElement('div');
     codeEl.classList.add('error-msg');
@@ -202,37 +217,10 @@ socket.onclose = (event) => {
 
     const btnEl = document.createElement('button');
     btnEl.classList.add('error-btn');
-    btnEl.onclick = refreshPage;
+    btnEl.onclick = () => location.reload();
     btnEl.innerText = "Refresh Page";
 
-    box.appendChild(titleEl);
-    box.appendChild(infoEl);
-    box.appendChild(codeEl);
-    box.appendChild(btnEl);
+    box.append(titleEl, infoEl, codeEl, btnEl);
     errors.appendChild(box);
-  } else {
-    const box = document.createElement('div');
-    box.classList.add('error-box');
-
-    const infoEl = document.createElement('div');
-    infoEl.classList.add('error-info');
-    infoEl.appendChild(document.createTextNode("Connection lost. Visible events are stashed. Try "));
-
-    const reloadLink = document.createElement('a');
-    reloadLink.href = "#";
-    reloadLink.innerText = "reloading the page";
-    reloadLink.onclick = (e) => {
-      e.preventDefault(); window.location.reload();
-    };
-
-    infoEl.appendChild(reloadLink);
-    infoEl.appendChild(document.createTextNode("."));
-
-    box.appendChild(infoEl); 
-    errors.prepend(box);
   }
 };
-
-function refreshPage() {
-  location.reload();
-}

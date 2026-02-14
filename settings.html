@@ -17,7 +17,7 @@
     </div>
     <div class="nav">
       <a href="account.html"><div></div>Account</a>
-      <span id="active"><div></div>Settings</span>
+      <span id="active" aria-current="page"><div></div>Settings</span>
     </div>
     <div class="nav">
       <a href="index.html"><div></div>Discover</a>
@@ -32,14 +32,18 @@
 
   <!-- Layout -->
   <div class="ui" id="ui">
-    <img src="/assets/back_arrow.svg" alt="back" id="back" class="mobile-back"/>
+    <button id="back" class="mobile-back" aria-label="Go back">
+      <img src="/assets/back_arrow.svg" alt="">
+    </button>
   </div>
+
   <div class="layout" id="layout">
     <main class="content">
-      <div class="page">
-        <span> Settings </span>
-      </div>
-      <div class="section"> General </div>
+      <header class="page">
+        <h1>Settings</h1>
+      </header>
+
+      <h2 class="section">General</h2>
       <div class="posted"> 
         <div class="inline"> Dark mode
           <label class="toggle">
