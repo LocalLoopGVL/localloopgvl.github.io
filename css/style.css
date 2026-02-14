@@ -184,7 +184,6 @@ span#active:hover {
   flex: 1;
   display: flex;
   overflow-y: auto;
-  margin-bottom: 50px;
 }
 
 .content {

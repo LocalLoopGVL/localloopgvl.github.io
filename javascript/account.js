@@ -5,6 +5,7 @@ const accountError = document.getElementById('accountError');
 const accountForm = document.getElementById('accountForm');
 const loggedInMsg = document.getElementById('loggedInMsg');
 const loggedInText = document.getElementById('loggedInText');
+const errors = document.getElementById('errors');
 
 /* ---------------- WEBSOCKET ---------------- */
 const socket = new WebSocket('wss://carly-vaned-christiana.ngrok-free.dev');
@@ -92,3 +93,39 @@ socket.addEventListener('message', (event) => {
     accountError.innerText = message.message;
   }
 });
+
+/* ---------------- CONNECTION FAIL ---------------- */
+socket.onclose = (event) => {
+  loggedInMsg.classList.add('hidden');
+  accountForm.classList.add('hidden');
+
+  const box = document.createElement('div');
+  box.classList.add('error-box');
+
+  const titleEl = document.createElement('div');
+  titleEl.classList.add('error');
+  titleEl.innerText = "Uh oh!";
+
+  const infoEl = document.createElement('div');
+  infoEl.classList.add('error-info');
+  infoEl.innerText = "Something went wrong with the WebSocket connection. Try reloading the page. If the problem persists, we may be down for maintenance.";
+
+  const codeEl = document.createElement('div');
+  codeEl.classList.add('error-msg');
+  codeEl.innerText = "Code: " + event.code;
+
+  const btnEl = document.createElement('button');
+  btnEl.classList.add('error-btn');
+  btnEl.onclick = refreshPage;
+  btnEl.innerText = "Refresh Page";
+
+  box.appendChild(titleEl);
+  box.appendChild(infoEl);
+  box.appendChild(codeEl);
+  box.appendChild(btnEl);
+  errors.appendChild(box);
+};
+
+function refreshPage() {
+  location.reload();
+}
