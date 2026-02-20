@@ -12,6 +12,15 @@ const description = document.getElementById('description');
 const sendBtn = document.getElementById('send');
 const errors = document.getElementById('errors');
 
+const viewModalOverlay = document.getElementById('viewModalOverlay');
+const closeViewModal = document.getElementById('closeViewModal');
+
+const viewName = document.getElementById('viewName');
+const viewDate = document.getElementById('viewDate');
+const viewLocation = document.getElementById('viewLocation');
+const viewDescription = document.getElementById('viewDescription');
+const viewCompany = document.getElementById('viewCompany');
+
 /* ---------------- WEBSOCKET ---------------- */
 const socket = new WebSocket('wss://carly-vaned-christiana.ngrok-free.dev');
 
@@ -105,6 +114,8 @@ function createEventBox(data) {
   box.classList.add('event-box');
 
   const wrapper = document.createElement('div');
+  box.dataset.id = data.id;
+  box.dataset.event = JSON.stringify(data);
 
   const nameEl = document.createElement('div');
   nameEl.classList.add('event-name');
@@ -224,3 +235,23 @@ socket.onclose = (event) => {
     errors.appendChild(box);
   }
 };
+
+/* ---------------- EXPAND EVENT ---------------- */
+output.addEventListener('click', (e) => {
+  const box = e.target.closest('.event-box');
+  if (!box) return;
+
+  const data = JSON.parse(box.dataset.event);
+
+  viewName.innerText = data.name;
+  viewDate.innerText = formatUnixDate(Number(data.time));
+  viewLocation.innerText = `${data.street}, ${data.city}, ${data.state}`;
+  viewDescription.innerText = data.description;
+  viewCompany.innerText = "Hosted by: " + data.company;
+
+  viewModalOverlay.classList.remove('hidden');
+});
+
+closeViewModal.addEventListener('click', () => {
+  viewModalOverlay.classList.add('hidden');
+});
