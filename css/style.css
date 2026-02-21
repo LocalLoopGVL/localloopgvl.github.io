@@ -314,6 +314,7 @@ button#back, button#openModal {
   justify-content: center;
   backdrop-filter: var(--filter);
   opacity: var(--opacity);
+  color: var(--text);
   z-index: 2;
   animation: fadeIn 0.2s ease forwards;
 }
@@ -465,6 +466,16 @@ button#back, button#openModal {
 
 .event-interest:hover {
   background-color: #3e6fd6;
+}
+
+/* Event Expanded Styles */
+
+#viewDate, #viewLocation, #viewCompany {
+  opacity: 0.4;
+}
+
+#viewCompany {
+  font-style: italic;
 }
 
 /* Error styles */
