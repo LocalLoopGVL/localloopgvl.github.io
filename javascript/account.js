@@ -1,11 +1,17 @@
-const signupBtn = document.getElementById('signup');
-const loginBtn = document.getElementById('login');
 const logoutBtn = document.getElementById('logout');
 const accountError = document.getElementById('accountError');
 const accountForm = document.getElementById('accountForm');
 const loggedInMsg = document.getElementById('loggedInMsg');
 const loggedInText = document.getElementById('loggedInText');
 const errors = document.getElementById('errors');
+const startBox = document.getElementById('startBox');
+const startLogin = document.getElementById('startLogin');
+const startSignup = document.getElementById('startSignup');
+const securityCodeInput = document.getElementById('securityCode');
+const backToStart = document.getElementById('backToStart');
+const submitBtn = document.getElementById('submitAccount');
+
+let accountMode = null;
 
 /* ---------------- WEBSOCKET ---------------- */
 const socket = new WebSocket('wss://carly-vaned-christiana.ngrok-free.dev');
@@ -20,30 +26,91 @@ socket.addEventListener('open', () => {
       loginId
     }));
   } else {
-    accountForm.classList.remove('hidden');
+    startBox.classList.remove('hidden');
   }
 });
 
-/* ---------------- ACCOUNT FUNCTIONS ---------------- */
-function sendAccount(type) {
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value.trim();
+/* ---------------- FORM SUBMIT (FIXED) ---------------- */
+accountForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (!accountMode) return;
+  sendAccount();
+});
+
+/* ---------------- ACCOUNT FUNCTION ---------------- */
+function sendAccount() {
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+  const securityCode = securityCodeInput.value.trim();
+
+  if (accountMode === 'verify') {
+    if (!securityCode) {
+      accountError.innerText = 'Enter verification code.';
+      return;
+    }
+
+    socket.send(JSON.stringify({
+      type: 'verify_signup',
+      email,
+      code: securityCode
+    }));
+
+    return;
+  }
 
   if (!email || !password) {
     accountError.innerText = "Fill out all fields.";
     return;
   }
 
-  const data = { type, email, password };
-  socket.send(JSON.stringify(data));
+  socket.send(JSON.stringify({
+    type: accountMode,
+    email,
+    password
+  }));
 }
 
-/* ---------------- FORM SUBMIT HANDLER ---------------- */
-accountForm.addEventListener('submit', (e) => {
-  e.preventDefault();
+/* ---------------- START OPTIONS ---------------- */
+startLogin.addEventListener('click', () => {
+  accountMode = 'login';
+  startBox.classList.add('hidden');
+  accountForm.classList.remove('hidden');
+  securityCodeInput.classList.add('hidden');
+  submitBtn.innerText = 'Continue';
+});
 
-  if (document.activeElement === signupBtn) sendAccount('signup');
-  else if (document.activeElement === loginBtn) sendAccount('login');
+startSignup.addEventListener('click', () => {
+  accountMode = 'signup';
+  startBox.classList.add('hidden');
+  accountForm.classList.remove('hidden');
+  securityCodeInput.classList.add('hidden');
+  submitBtn.innerText = 'Continue';
+});
+
+/* ---------------- BACK BUTTON ---------------- */
+backToStart.addEventListener('click', () => {
+  accountMode = null;
+
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+
+  emailInput.value = '';
+  passwordInput.value = '';
+  securityCodeInput.value = '';
+
+  emailInput.disabled = false;
+  passwordInput.disabled = false;
+
+  securityCodeInput.classList.add('hidden');
+  submitBtn.innerText = 'Continue';
+
+  accountError.innerText = '';
+
+  accountForm.classList.add('hidden');
+  startBox.classList.remove('hidden');
 });
 
 /* ---------------- LOGOUT ---------------- */
@@ -59,41 +126,54 @@ logoutBtn.addEventListener('click', () => {
   localStorage.removeItem('loginId');
   localStorage.removeItem('userId');
 
-  accountForm.classList.remove('hidden');
   loggedInMsg.classList.add('hidden');
+  startBox.classList.remove('hidden');
 });
 
 /* ---------------- WEBSOCKET MESSAGE HANDLER ---------------- */
 socket.addEventListener('message', (event) => {
   const message = JSON.parse(event.data);
 
-  /* ---------- SESSION VALID ---------- */
   if (message.type === 'session_valid') {
     accountForm.classList.add('hidden');
+    startBox.classList.add('hidden');
     loggedInMsg.classList.remove('hidden');
     loggedInText.innerText = `You're logged in as ${message.email}`;
   }
 
-  /* ---------- SESSION INVALID ---------- */
   if (message.type === 'session_invalid') {
     localStorage.removeItem('loginId');
-    accountForm.classList.remove('hidden');
+    accountForm.classList.add('hidden');
     loggedInMsg.classList.add('hidden');
+    startBox.classList.remove('hidden');
   }
 
-  /* ---------- ACCOUNT SUCCESS ---------- */
   if (message.type === 'account_success') {
     localStorage.setItem('loginId', message.loginId);
     localStorage.setItem('userId', message.userId);
 
-    accountForm.classList.add('hidden');
-    loggedInMsg.classList.remove('hidden');
-    loggedInText.innerText = "You're logged in!";
+    setTimeout(() => {
+      location.reload();
+    }, 800);
   }
 
-  /* ---------- ACCOUNT ERROR ---------- */
   if (message.type === 'account_error') {
     accountError.innerText = message.message;
+  }
+
+  if (message.type === 'verification_required') {
+    accountMode = 'verify';
+
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    emailInput.disabled = true;
+    passwordInput.disabled = true;
+
+    securityCodeInput.classList.remove('hidden');
+    submitBtn.innerText = 'Verify';
+
+    accountError.innerText = 'Enter the code sent to your email.';
   }
 });
 
@@ -102,33 +182,18 @@ socket.onclose = (event) => {
   const box = document.createElement('div');
   box.classList.add('error-box');
 
-  const titleEl = document.createElement('div');
-  titleEl.classList.add('error');
-  titleEl.innerText = "Uh oh!";
+  box.innerHTML = `
+    <div class="error">Uh oh!</div>
+    <div class="error-info">
+      Something went wrong with the WebSocket connection.
+      Try reloading the page.
+    </div>
+    <div class="error-msg">Code: ${event.code}</div>
+    <button class="error-btn" onclick="location.reload()">Refresh Page</button>
+  `;
 
-  const infoEl = document.createElement('div');
-  infoEl.classList.add('error-info');
-  infoEl.innerText = "Something went wrong with the WebSocket connection. Try reloading the page. If the problem persists, we may be down for maintenance.";
-
-  const codeEl = document.createElement('div');
-  codeEl.classList.add('error-msg');
-  codeEl.innerText = "Code: " + event.code;
-
-  const btnEl = document.createElement('button');
-  btnEl.classList.add('error-btn');
-  btnEl.onclick = refreshPage;
-  btnEl.innerText = "Refresh Page";
-
-  box.appendChild(titleEl);
-  box.appendChild(infoEl);
-  box.appendChild(codeEl);
-  box.appendChild(btnEl);
   errors.appendChild(box);
 
   loggedInMsg.classList.add('hidden');
   accountForm.classList.add('hidden');
 };
-
-function refreshPage() {
-  location.reload();
-}
