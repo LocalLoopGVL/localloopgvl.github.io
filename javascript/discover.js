@@ -26,6 +26,14 @@ const socket = new WebSocket('wss://carly-vaned-christiana.ngrok-free.dev');
 
 /* ---------------- UI ---------------- */
 openModalBtn.addEventListener('click', () => {
+  const loginId = localStorage.getItem('loginId');
+  const userId = localStorage.getItem('userId');
+
+  if (!loginId || !userId) {
+    accessModal.classList.remove('hidden');
+    return;
+  }
+
   modalOverlay.classList.remove('hidden');
 });
 

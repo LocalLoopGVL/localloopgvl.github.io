@@ -119,6 +119,11 @@ ul {
   list-style-position: inside;
 }
 
+a {
+  color: #4980f7;
+  text-decoration: none;
+}
+
 /* Sidebar */
 .sidebar {
   width: 350px;
@@ -544,11 +549,6 @@ button#back, button#openModal {
   margin: 0 auto 10px auto;
 }
 
-.posted a, .error-box a {
-  color: #4980f7;
-  text-decoration: none;
-}
-
 .posted ol {
   list-style: none;
 }
@@ -685,6 +685,10 @@ button#back, button#openModal {
 
   .modal {
     scale: 1.1;
+  }
+
+  .accessModal {
+    z-index: 3;
   }
 }
 
