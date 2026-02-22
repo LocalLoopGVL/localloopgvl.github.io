@@ -1,17 +1,33 @@
 const logoutBtn = document.getElementById('logout');
-const accountError = document.getElementById('accountError');
-const accountForm = document.getElementById('accountForm');
 const loggedInMsg = document.getElementById('loggedInMsg');
 const loggedInText = document.getElementById('loggedInText');
 const errors = document.getElementById('errors');
-const startBox = document.getElementById('startBox');
-const startLogin = document.getElementById('startLogin');
-const startSignup = document.getElementById('startSignup');
-const securityCodeInput = document.getElementById('securityCode');
-const backToStart = document.getElementById('backToStart');
-const submitBtn = document.getElementById('submitAccount');
+const loginForm = document.getElementById('loginForm');
+const loginEmail = document.getElementById('loginEmail');
+const loginPassword = document.getElementById('loginPassword');
+const loginError = document.getElementById('loginError');
+const goToSignup = document.getElementById('goToSignup');
+const signupForm = document.getElementById('signupForm');
+const signupEmail = document.getElementById('signupEmail');
+const signupPassword = document.getElementById('signupPassword');
+const signupSecurityCode = document.getElementById('signupSecurityCode');
+const signupError = document.getElementById('signupError');
+const backToLogin = document.getElementById('backToLogin');
+const signupSubmit = document.getElementById('signupSubmit');
+const loginSubmit = document.getElementById('loginSubmit');
 
 let accountMode = null;
+let signupMode = null;
+
+/* ---------------- ERROR HELPER ---------------- */
+function setError(element, message) {
+  element.innerText = message;
+  if (message) {
+    element.classList.remove('hidden');
+  } else {
+    element.classList.add('hidden');
+  }
+}
 
 /* ---------------- WEBSOCKET ---------------- */
 const socket = new WebSocket('wss://carly-vaned-christiana.ngrok-free.dev');
@@ -19,98 +35,77 @@ const socket = new WebSocket('wss://carly-vaned-christiana.ngrok-free.dev');
 /* ---------------- SESSION VALIDATION ---------------- */
 socket.addEventListener('open', () => {
   const loginId = localStorage.getItem('loginId');
-
   if (loginId) {
-    socket.send(JSON.stringify({
-      type: 'validate_session',
-      loginId
-    }));
+    socket.send(JSON.stringify({ type: 'validate_session', loginId }));
   } else {
-    startBox.classList.remove('hidden');
+    loginForm.classList.remove('hidden');
   }
 });
 
-/* ---------------- FORM SUBMIT (FIXED) ---------------- */
-accountForm.addEventListener('submit', (e) => {
+/* ---------------- LOGIN ---------------- */
+loginForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  if (!accountMode) return;
-  sendAccount();
+  const email = loginEmail.value.trim();
+  const password = loginPassword.value.trim();
+
+  if (!email || !password) {
+    setError(loginError, 'Fill out all fields.');
+    return;
+  }
+
+  setError(loginError, ''); // clear previous errors
+  socket.send(JSON.stringify({ type: 'login', email, password }));
 });
 
-/* ---------------- ACCOUNT FUNCTION ---------------- */
-function sendAccount() {
-  const emailInput = document.getElementById('email');
-  const passwordInput = document.getElementById('password');
+goToSignup.addEventListener('click', () => {
+  loginForm.classList.add('hidden');
+  signupForm.classList.remove('hidden');
+  signupSecurityCode.classList.add('hidden');
+  signupSubmit.innerText = 'Continue';
+  signupMode = null;
+  signupEmail.value = '';
+  signupPassword.value = '';
+  signupSecurityCode.value = '';
+  setError(signupError, '');
+  setError(loginError, '');
+});
 
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
-  const securityCode = securityCodeInput.value.trim();
+/* ---------------- SIGNUP ---------------- */
+signupForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = signupEmail.value.trim();
+  const password = signupPassword.value.trim();
+  const code = signupSecurityCode.value.trim();
 
-  if (accountMode === 'verify') {
-    if (!securityCode) {
-      accountError.innerText = 'Enter verification code.';
+  if (signupMode === 'verify') {
+    if (!code) {
+      setError(signupError, 'Enter verification code.');
       return;
     }
 
-    socket.send(JSON.stringify({
-      type: 'verify_signup',
-      email,
-      code: securityCode
-    }));
-
+    setError(signupError, '');
+    socket.send(JSON.stringify({ type: 'verify_signup', email, code }));
     return;
   }
 
   if (!email || !password) {
-    accountError.innerText = "Fill out all fields.";
+    setError(signupError, 'Fill out all fields.');
     return;
   }
 
-  socket.send(JSON.stringify({
-    type: accountMode,
-    email,
-    password
-  }));
-}
-
-/* ---------------- START OPTIONS ---------------- */
-startLogin.addEventListener('click', () => {
-  accountMode = 'login';
-  startBox.classList.add('hidden');
-  accountForm.classList.remove('hidden');
-  securityCodeInput.classList.add('hidden');
-  submitBtn.innerText = 'Continue';
+  setError(signupError, '');
+  socket.send(JSON.stringify({ type: 'signup', email, password }));
 });
 
-startSignup.addEventListener('click', () => {
-  accountMode = 'signup';
-  startBox.classList.add('hidden');
-  accountForm.classList.remove('hidden');
-  securityCodeInput.classList.add('hidden');
-  submitBtn.innerText = 'Continue';
-});
-
-/* ---------------- BACK BUTTON ---------------- */
-backToStart.addEventListener('click', () => {
-  accountMode = null;
-
-  const emailInput = document.getElementById('email');
-  const passwordInput = document.getElementById('password');
-
-  emailInput.value = '';
-  passwordInput.value = '';
-  securityCodeInput.value = '';
-
-  emailInput.disabled = false;
-  passwordInput.disabled = false;
-
-  securityCodeInput.classList.add('hidden');
-  submitBtn.innerText = 'Continue';
-
-  accountError.innerText = '';
-
-  accountForm.classList.add('hidden');
-  startBox.classList.remove('hidden');
+backToLogin.addEventListener('click', () => {
+  signupForm.classList.add('hidden');
+  loginForm.classList.remove('hidden');
+  signupMode = null;
+  signupEmail.value = '';
+  signupPassword.value = '';
+  signupSecurityCode.value = '';
+  setError(signupError, '');
+  setError(loginError, '');
 });
 
 /* ---------------- LOGOUT ---------------- */
@@ -118,16 +113,12 @@ logoutBtn.addEventListener('click', () => {
   const loginId = localStorage.getItem('loginId');
   if (!loginId) return;
 
-  socket.send(JSON.stringify({
-    type: 'logout',
-    loginId
-  }));
-
+  socket.send(JSON.stringify({ type: 'logout', loginId }));
   localStorage.removeItem('loginId');
   localStorage.removeItem('userId');
 
   loggedInMsg.classList.add('hidden');
-  startBox.classList.remove('hidden');
+  loginForm.classList.remove('hidden');
 });
 
 /* ---------------- WEBSOCKET MESSAGE HANDLER ---------------- */
@@ -135,45 +126,41 @@ socket.addEventListener('message', (event) => {
   const message = JSON.parse(event.data);
 
   if (message.type === 'session_valid') {
-    accountForm.classList.add('hidden');
-    startBox.classList.add('hidden');
+    loginForm.classList.add('hidden');
+    signupForm.classList.add('hidden');
     loggedInMsg.classList.remove('hidden');
     loggedInText.innerText = `You're logged in as ${message.email}`;
   }
 
   if (message.type === 'session_invalid') {
     localStorage.removeItem('loginId');
-    accountForm.classList.add('hidden');
     loggedInMsg.classList.add('hidden');
-    startBox.classList.remove('hidden');
+    loginForm.classList.remove('hidden');
+    signupForm.classList.add('hidden');
   }
 
   if (message.type === 'account_success') {
     localStorage.setItem('loginId', message.loginId);
     localStorage.setItem('userId', message.userId);
 
-    setTimeout(() => {
-      location.reload();
-    }, 800);
+    setTimeout(() => location.reload(), 800);
   }
 
   if (message.type === 'account_error') {
-    accountError.innerText = message.message;
+    if (signupForm.classList.contains('hidden')) {
+      setError(loginError, message.message);
+    } else {
+      setError(signupError, message.message);
+    }
   }
 
   if (message.type === 'verification_required') {
-    accountMode = 'verify';
-
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-
-    emailInput.disabled = true;
-    passwordInput.disabled = true;
-
-    securityCodeInput.classList.remove('hidden');
-    submitBtn.innerText = 'Verify';
-
-    accountError.innerText = 'Enter the code sent to your email.';
+    signupMode = 'verify';
+    signupEmail.disabled = true;
+    signupPassword.disabled = true;
+    signupSecurityCode.classList.remove('hidden');
+    signupSubmit.innerText = 'Verify';
+    setError(signupError, 'Enter the code sent to your email.');
   }
 });
 
@@ -193,7 +180,7 @@ socket.onclose = (event) => {
   `;
 
   errors.appendChild(box);
-
   loggedInMsg.classList.add('hidden');
-  accountForm.classList.add('hidden');
+  loginForm.classList.add('hidden');
+  signupForm.classList.add('hidden');
 };

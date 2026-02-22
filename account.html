@@ -46,28 +46,28 @@
       </header>
       <div id="errors"></div>
 
-      <!-- GET STARTED -->
-      <div id="startBox" class="posted hidden">
-        <p>Log in to your account or sign up to create a new one.</p>
-        <div class="inline">
-          <button type="button" id="startLogin">Log In</button>
-          <button type="button" id="startSignup">Sign Up</button>
+      <!-- LOGIN FORM -->
+      <form id="loginForm" class="posted hidden" novalidate>
+        <p>Welcome back.</p>
+        <input id="loginEmail" type="email" placeholder="Email">
+        <input id="loginPassword" type="password" placeholder="Password">
+        <div id="loginError" class="hidden"></div>
+        <button type="submit" id="loginSubmit">Sign In</button>
+        <div class="signup-prompt">
+          <span>Don't have an account? <a href="#" id="goToSignup"> Sign in </a></span>
         </div>
-      </div>
+      </form>
 
-      <!-- ACCOUNT FORM -->
-      <form id="accountForm" class="posted hidden" novalidate>
-        <input id="email" type="email" placeholder="Email">
-        <input id="password" type="password" placeholder="Password">
-
-        <!-- SECURITY CODE (Signup Only) -->
-        <input id="securityCode" type="text" placeholder="Security Code" class="hidden">
-
-        <div id="accountError"></div>
-
+      <!-- SIGNUP FORM -->
+      <form id="signupForm" class="posted hidden" novalidate>
+        <p>Let's get you started.</p>
+        <input id="signupEmail" type="email" placeholder="Email">
+        <input id="signupPassword" type="password" placeholder="Password">
+        <input id="signupSecurityCode" type="text" placeholder="Security Code" class="hidden">
+        <div id="signupError" class="hidden"></div>
         <div class="inline">
-          <button type="button" id="backToStart">Back</button>
-          <button type="submit" id="submitAccount">Continue</button>
+          <button type="button" id="backToLogin">Back</button>
+          <button type="submit" id="signupSubmit">Continue</button>
         </div>
       </form>
 

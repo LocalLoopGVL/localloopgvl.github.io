@@ -124,6 +124,12 @@ a {
   text-decoration: none;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 /* Sidebar */
 .sidebar {
   width: 350px;
@@ -507,11 +513,6 @@ button#back, button#openModal {
   margin-bottom: 6px;
 }
 
-.event-desc {
-  font-size: 16px;
-  margin-bottom: 6px;
-}
-
 .error-msg {
   font-size: 14px;
   font-style: italic;
@@ -689,6 +690,10 @@ button#back, button#openModal {
 
   .accessModal {
     z-index: 3;
+    left: 20px;
+    bottom: 20px;
+    scale: 1.1;
+    outline: solid 1px var(--bg);
   }
 }
 
