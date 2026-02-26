@@ -17,9 +17,8 @@ const signupSubmit = document.getElementById('signupSubmit');
 const loginSubmit = document.getElementById('loginSubmit');
 const myEvents = document.getElementById('myEvents');
 const output = document.getElementById('output');
+const signUpText = document.getElementById('signUpText')
 
-let accountMode = null;
-let signupMode = null;
 
 /* ---------------- ERROR HELPER ---------------- */
 function setError(element, message) {
@@ -60,33 +59,58 @@ loginForm.addEventListener('submit', (e) => {
 });
 
 goToSignup.addEventListener('click', () => {
+  const signUpMode = localStorage.getItem('signUpMode');
+  const signUpState = localStorage.getItem('signUpEmail');
+
   loginForm.classList.add('hidden');
   signupForm.classList.remove('hidden');
+  
+  signupEmail.classList.remove('hidden');
+  signupPassword.classList.remove('hidden');
   signupSecurityCode.classList.add('hidden');
   signupSubmit.innerText = 'Continue';
-  signupMode = null;
+
   signupEmail.value = '';
   signupPassword.value = '';
   signupSecurityCode.value = '';
+
   setError(signupError, '');
   setError(loginError, '');
+
+  if (signUpMode === 'verify' && signUpState) {
+    signupEmail.classList.add('hidden');
+    signupPassword.classList.add('hidden');
+    signupSecurityCode.classList.remove('hidden');
+    signupSubmit.innerText = 'Verify';
+    signUpText.innerText = `Verify for the email ${signUpState}`;
+  } else {
+    signUpText.innerText = "Let's get you started";
+  }
 });
 
 /* ---------------- SIGNUP ---------------- */
 signupForm.addEventListener('submit', (e) => {
   e.preventDefault();
+
   const email = signupEmail.value.trim();
   const password = signupPassword.value.trim();
   const code = signupSecurityCode.value.trim();
 
-  if (signupMode === 'verify') {
+  const signUpState = localStorage.getItem('signUpEmail');
+  const signUpMode = localStorage.getItem('signUpMode');
+
+  if (signUpMode === 'verify') {
     if (!code) {
       setError(signupError, 'Enter verification code.');
       return;
     }
 
     setError(signupError, '');
-    socket.send(JSON.stringify({ type: 'verify_signup', email, code }));
+    socket.send(JSON.stringify({ 
+      type: 'verify_signup', 
+      email: signUpState,
+      code 
+    }));
     return;
   }
 
@@ -96,13 +120,13 @@ signupForm.addEventListener('submit', (e) => {
   }
 
   setError(signupError, '');
+  localStorage.setItem('signUpEmail', email);
   socket.send(JSON.stringify({ type: 'signup', email, password }));
 });
 
 backToLogin.addEventListener('click', () => {
   signupForm.classList.add('hidden');
   loginForm.classList.remove('hidden');
-  signupMode = null;
   signupEmail.value = '';
   signupPassword.value = '';
   signupSecurityCode.value = '';
@@ -135,7 +159,7 @@ socket.addEventListener('message', (event) => {
     loggedInMsg.classList.remove('hidden');
     logoutBtn.classList.remove('hidden');
     loggedInText.innerText = `You're logged in as ${message.email}`;
-    if (message.events || message.events.length !== 0) {
+    if (message.events && message.events.length !== 0) {
       myEvents.classList.remove('hidden');
       message.events
       .sort((a, b) => Number(b.time) - Number(a.time))
@@ -155,6 +179,8 @@ socket.addEventListener('message', (event) => {
   if (message.type === 'account_success') {
     localStorage.setItem('loginId', message.loginId);
     localStorage.setItem('userId', message.userId);
+    localStorage.removeItem('signUpMode');
+    localStorage.removeItem('signUpEmail');
 
     setTimeout(() => location.reload(), 800);
   }
@@ -168,11 +194,15 @@ socket.addEventListener('message', (event) => {
   }
 
   if (message.type === 'verification_required') {
-    signupMode = 'verify';
-    signupEmail.disabled = true;
-    signupPassword.disabled = true;
+    const signUpState = localStorage.getItem('signUpEmail');
+    localStorage.setItem('signUpMode', 'verify');
+  
+    signupEmail.classList.add('hidden');
+    signupPassword.classList.add('hidden');
     signupSecurityCode.classList.remove('hidden');
     signupSubmit.innerText = 'Verify';
+    signUpText.innerText = `Verify for the email ${signUpState}`;
+  
     setError(signupError, 'Enter the code sent to your email.');
   }
 });
