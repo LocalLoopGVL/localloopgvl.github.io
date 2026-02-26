@@ -107,9 +107,13 @@
     </form>
   </div>
 
-  <div id="accessModal" class="accessModal hidden" role="alertdialog" aria-modal="true">
-    <span>Err: Please <a href="/account.html">log in</a> |</span>
-    <button id="closeAccess">Close</button>
+  <div id="accessModal" class="modal-overlay hidden" role="alertdialog" aria-modal="true">
+    <div class="accessModal">
+      <h2 id="modalTitle">Log in required</h2>
+      <p> You need to log in to post events </p>
+      <a href="/account.html"> Log in </a>
+      <button id="closeAccess">Close</button>
+    </div>
   </div>
 
   <div id="viewModalOverlay" class="modal-overlay hidden">

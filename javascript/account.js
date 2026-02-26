@@ -15,6 +15,8 @@ const signupError = document.getElementById('signupError');
 const backToLogin = document.getElementById('backToLogin');
 const signupSubmit = document.getElementById('signupSubmit');
 const loginSubmit = document.getElementById('loginSubmit');
+const myEvents = document.getElementById('myEvents');
+const output = document.getElementById('output');
 
 let accountMode = null;
 let signupMode = null;
@@ -118,6 +120,8 @@ logoutBtn.addEventListener('click', () => {
   localStorage.removeItem('userId');
 
   loggedInMsg.classList.add('hidden');
+  logoutBtn.classList.add('hidden');
+  myEvents.classList.add('hidden');
   loginForm.classList.remove('hidden');
 });
 
@@ -129,12 +133,21 @@ socket.addEventListener('message', (event) => {
     loginForm.classList.add('hidden');
     signupForm.classList.add('hidden');
     loggedInMsg.classList.remove('hidden');
+    logoutBtn.classList.remove('hidden');
     loggedInText.innerText = `You're logged in as ${message.email}`;
+    if (message.events || message.events.length !== 0) {
+      myEvents.classList.remove('hidden');
+      message.events
+      .sort((a, b) => Number(b.time) - Number(a.time))
+      .forEach(createEventBox);
+    }
   }
 
   if (message.type === 'session_invalid') {
     localStorage.removeItem('loginId');
     loggedInMsg.classList.add('hidden');
+    logoutBtn.classList.add('hidden');
+    myEvents.classList.add('hidden');
     loginForm.classList.remove('hidden');
     signupForm.classList.add('hidden');
   }
@@ -164,6 +177,45 @@ socket.addEventListener('message', (event) => {
   }
 });
 
+/* ---------------- ACCOUNT EVENTS ---------------- */
+function createEventBox(data) {
+  const box = document.createElement('div');
+  box.classList.add('event-box');
+
+  const wrapper = document.createElement('div');
+  box.dataset.id = data.id;
+  box.dataset.event = JSON.stringify(data);
+
+  const nameEl = document.createElement('div');
+  nameEl.classList.add('event-name');
+  nameEl.innerText = data.name;
+
+  const locationEl = document.createElement('div');
+  locationEl.classList.add('event-location');
+  locationEl.innerText = `${data.street}, ${data.city}, ${data.state}`;
+
+  const descEl = document.createElement('div');
+  descEl.classList.add('event-desc');
+  descEl.innerText = data.description;
+
+  const companyEl = document.createElement('div');
+  companyEl.classList.add('event-company');
+  companyEl.innerText = 'Hosted by: ' + data.company;
+
+  const dividerEl = document.createElement('div');
+  dividerEl.classList.add('divider');
+
+  const editEl = document.createElement('button');
+  editEl.classList.add('event-interest');
+  editEl.innerText = 'Edit Event';
+
+  wrapper.append(nameEl, locationEl, descEl, companyEl);
+  wrapper.classList.add('wrapper');
+  box.append(wrapper, dividerEl, editEl);
+
+  output.append(box);
+}
+
 /* ---------------- CONNECTION FAIL ---------------- */
 socket.onclose = (event) => {
   const box = document.createElement('div');
@@ -181,6 +233,8 @@ socket.onclose = (event) => {
 
   errors.appendChild(box);
   loggedInMsg.classList.add('hidden');
+  logoutBtn.classList.add('hidden');
+  myEvents.classList.add('hidden');
   loginForm.classList.add('hidden');
   signupForm.classList.add('hidden');
 };

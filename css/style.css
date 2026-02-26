@@ -32,8 +32,10 @@ input[type="number"]::-webkit-outer-spin-button {
   --divider: #dedede;
   --toggle: #e5e5e5;
   --motion: 0.3s ease;
-  --filter: blur(25px);
+  --filter: blur(15px);
   --opacity: 0;
+  --color: #4980f7;
+  --color-hover: #3e6fd6;
 }
 
 .dark {
@@ -103,14 +105,14 @@ textarea {
 
 input:focus {
   display: flex;
-  outline: solid 2px #4980f7;
+  outline: solid 2px var(--color);
 }
 
 button {
   padding: 8px 12px;
   border: none;
   color: #fff;
-  background-color: #4980f7;
+  background-color: var(--color);
   border-radius: 8px;
   cursor: pointer;
 }
@@ -120,7 +122,7 @@ ul {
 }
 
 a {
-  color: #4980f7;
+  color: var(--color);
   text-decoration: none;
 }
 
@@ -202,7 +204,7 @@ span#active:hover {
 .nav div {
   height: 25px;
   width: 25px;
-  background: #4980f7;
+  background: var(--color);
   margin-right: 10px;
   border-radius: 5px;
   display: none;
@@ -337,11 +339,14 @@ button#back, button#openModal {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border-radius: 15px;
+  border-radius: 25px;
   outline: solid 1px var(--item);
 }
 
 .modal input, .modal textarea {
+  padding: 12px;
+  height: 40px;
+  border-radius: 12px;
   background-color: var(--input);
 }
 
@@ -360,42 +365,50 @@ button#back, button#openModal {
 }
 
 .modal-actions button {
-  padding: 8px 12px;
+  padding: 12px;
   border: none;
   color: #fff;
-  background-color: #4980f7;
-  border-radius: 8px;
+  background-color: var(--color);
+  border-radius: 12px;
   cursor: pointer;
 }
 
 .modal-actions button:hover {
-  background-color: #3e6fd6;
+  background-color: var(--color-hover);
 }
 
 .accessModal {
   background: var(--item);
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
-  font-size: 15px;
-  padding: 10px;
-  display: inline;
+  display: flex;
   flex-direction: column;
-  border-radius: 15px;
+  gap: 10px;
+  position: absolute;
+  width: calc(100% - 40px);
+  max-width: 400px;
+  font-size: 15px;
+  padding: 15px;
+  text-align: center;
+  border-radius: 25px;
+  border: solid 1px var(--divider);
   color: var(--text);
   font-weight: bold;
-  opacity: var(--opacity);
   animation: fadeIn 0.2s ease forwards;
+  z-index: 3;
 }
 
-.accessModal button {
+.accessModal p {
+  font-weight: normal;
+}
+
+.accessModal a, .accessModal button {
+  font-weight: normal;
   font-size: 15px;
-  background: none;
+  padding: 12px 12px;
   border: none;
+  color: #fff;
+  background-color: var(--color);
+  border-radius: 12px;
   cursor: pointer;
-  color: #4980f7;
-  font-weight: bold;
-  padding: 0;
 }
 
 .hidden {
@@ -416,17 +429,23 @@ button#back, button#openModal {
 
 /* Event Card Styles */
 
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 15px 15px 16px 15px;
+}
+
 .event-box {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   border-radius: 15px;
-  padding: 15px;
   background: var(--item);
   word-wrap: break-word;
   opacity: var(--opacity);
   animation: fadeIn 1s ease forwards;
   color: var(--text);
+  overflow: hidden;
 }
 
 @keyframes fadeIn {
@@ -435,21 +454,24 @@ button#back, button#openModal {
   }
 }
 
+@keyframes enter {
+  to {
+    transform: translateY(0px);
+  }
+}
+
 .event-name {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: bold;
-  margin-bottom: 6px;
 }
 
 .event-date, .event-location {
   font-size: 14px;
   opacity: 0.4;
-  margin-bottom: 6px;
 }
 
 .event-desc {
   font-size: 16px;
-  margin-bottom: 6px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   line-clamp: 3;
@@ -457,27 +479,36 @@ button#back, button#openModal {
   overflow: hidden;
 }
 
-
 .event-company {
   font-size: 14px;
   font-style: italic;
   opacity: 0.4;
 }
 
-.event-interest {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background-color: #4980f7;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+.divider {
+  position: relative;
+  height: 1px;
   width: 100%;
-  display: none;
+  background-color: var(--divider);
+}
+
+.event-interest {
+  font-size: 16px;
+  padding: 12px;
+  text-align: left;
+  padding: 0;
+  background: var(--item);
+  color: var(--color);
+  padding: 15px 15px;
+  border: none;
+  border-radius: 0;
+  cursor: not-allowed;
+  width: 100%;
+  opacity: 0.5;
 }
 
 .event-interest:hover {
-  background-color: #3e6fd6;
+  background: var(--item-hover);
 }
 
 /* Event Expanded Styles */
@@ -523,7 +554,7 @@ button#back, button#openModal {
 .error-btn {
   margin-top: 10px;
   padding: 8px 12px;
-  background-color: #4980f7;
+  background-color: var(--color);
   color: white;
   border: none;
   border-radius: 5px;
@@ -568,7 +599,12 @@ button#back, button#openModal {
 }
 
 #state {
-  width: 33px;
+  text-align: center;
+  width: 50px;
+}
+
+#description {
+  overflow-y: auto;
 }
 
 /* Mobile */
@@ -689,11 +725,10 @@ button#back, button#openModal {
   }
 
   .accessModal {
-    z-index: 3;
-    left: 20px;
     bottom: 20px;
-    scale: 1.1;
-    outline: solid 1px var(--bg);
+    transform: translateY(200px);
+    animation: enter 0.2s ease forwards;
+    z-index: 3;
   }
 }
 
@@ -748,9 +783,50 @@ button#back, button#openModal {
 }
 
 .toggle input:checked + .switch {
-  background-color: #4980f7;
+  background-color: var(--color);
 }
 
 .toggle input:checked + .switch::before {
   transform: translateX(17px);
+}
+
+/* Account Page */
+.my-events {
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto 20px auto;
+}
+
+.my-events-grid {
+  display: grid;
+  max-width: 700px;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  opacity: var(--opacity);
+  animation: fadeIn 1s ease forwards;
+  margin: 0 auto 10px auto;
+}
+
+#logout {
+  display: flex;
+  justify-content: center;
+  max-width: 300px;
+  background-color: var(--active);
+  color: var(--text);
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 12px;
+  margin: 30px auto 0 auto;
+  width: 90%;
+  opacity: var(--opacity);
+  animation: fadeIn 1s ease forwards;
+}
+
+.dark #logout {
+  opacity: 0.5;
+}
+
+#logout:hover {
+  background-color: var(--active-hover);
 }

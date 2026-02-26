@@ -48,7 +48,7 @@
 
       <!-- LOGIN FORM -->
       <form id="loginForm" class="posted hidden" novalidate>
-        <p>Welcome back.</p>
+        <p>Welcome back</p>
         <input id="loginEmail" type="email" placeholder="Email">
         <input id="loginPassword" type="password" placeholder="Password">
         <div id="loginError" class="hidden"></div>
@@ -60,7 +60,7 @@
 
       <!-- SIGNUP FORM -->
       <form id="signupForm" class="posted hidden" novalidate>
-        <p>Let's get you started.</p>
+        <p>Let's get you started</p>
         <input id="signupEmail" type="email" placeholder="Email">
         <input id="signupPassword" type="password" placeholder="Password">
         <input id="signupSecurityCode" type="text" placeholder="Security Code" class="hidden">
@@ -72,10 +72,24 @@
       </form>
 
       <!-- LOGGED IN MESSAGE -->
-      <div class="posted hidden" id="loggedInMsg">
-        <span id="loggedInText"></span>
-        <button type="button" id="logout">Log Out</button>
+      <div class="hidden" id="loggedInMsg">
+        <h2 class="section">My Account</h2>
+        <div class="posted">
+          <span id="loggedInText"></span>
+        </div>
       </div>
+
+      <!-- USER'S EVENTS -->
+      <div id="myEvents" class="hidden">
+        <h2 class="section">My Events</h2>
+        <div id="output" class="my-events-grid"> 
+          <!-- user's events created here -->
+        </div>
+        <footer class="footer">
+          Thats all!
+        </footer>
+      </div>
+      <button type="button" id="logout" class="hidden">Sign out</button>
     </main>
   </div>
 

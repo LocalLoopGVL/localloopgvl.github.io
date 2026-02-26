@@ -145,12 +145,16 @@ function createEventBox(data) {
   companyEl.classList.add('event-company');
   companyEl.innerText = 'Hosted by: ' + data.company;
 
+  const dividerEl = document.createElement('div');
+  dividerEl.classList.add('divider');
+
   const interestEl = document.createElement('button');
   interestEl.classList.add('event-interest');
-  interestEl.innerText = 'Get notified!';
+  interestEl.innerText = 'Remind Me';
 
   wrapper.append(nameEl, dateEl, locationEl, descEl, companyEl);
-  box.append(wrapper, interestEl);
+  wrapper.classList.add('wrapper');
+  box.append(wrapper, dividerEl, interestEl);
 
   output.prepend(box);
 }
@@ -248,6 +252,7 @@ socket.onclose = (event) => {
 output.addEventListener('click', (e) => {
   const box = e.target.closest('.event-box');
   if (!box) return;
+  if (e.target.closest('.event-interest')) return;
 
   const data = JSON.parse(box.dataset.event);
 
@@ -262,4 +267,14 @@ output.addEventListener('click', (e) => {
 
 closeViewModal.addEventListener('click', () => {
   viewModalOverlay.classList.add('hidden');
+});
+
+const modalShades = document.querySelectorAll('.modal-overlay');
+
+modalShades.forEach((shade) => {
+  shade.addEventListener('click', (e) => {
+    if (e.target === shade) {
+      shade.classList.add('hidden');
+    }
+  });
 });
