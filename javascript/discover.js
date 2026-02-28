@@ -145,16 +145,13 @@ function createEventBox(data) {
   companyEl.classList.add('event-company');
   companyEl.innerText = 'Hosted by: ' + data.company;
 
-  const dividerEl = document.createElement('div');
-  dividerEl.classList.add('divider');
-
   const interestEl = document.createElement('button');
   interestEl.classList.add('event-interest');
   interestEl.innerText = 'Remind Me';
 
   wrapper.append(nameEl, dateEl, locationEl, descEl, companyEl);
   wrapper.classList.add('wrapper');
-  box.append(wrapper, dividerEl, interestEl);
+  box.append(wrapper, interestEl);
 
   output.prepend(box);
 }

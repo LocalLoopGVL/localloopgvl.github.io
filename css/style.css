@@ -439,6 +439,7 @@ button#back, button#openModal {
 .event-box {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   border-radius: 15px;
   background: var(--item);
   word-wrap: break-word;
@@ -485,13 +486,6 @@ button#back, button#openModal {
   opacity: 0.4;
 }
 
-.divider {
-  position: relative;
-  height: 1px;
-  width: 100%;
-  background-color: var(--divider);
-}
-
 .event-interest {
   font-size: 16px;
   padding: 12px;
@@ -505,6 +499,7 @@ button#back, button#openModal {
   cursor: not-allowed;
   width: 100%;
   opacity: 0.5;
+  border-top: solid 1px var(--divider);
 }
 
 .event-interest:hover {
