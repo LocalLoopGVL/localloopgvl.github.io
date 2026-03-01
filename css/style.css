@@ -103,7 +103,7 @@ textarea {
   max-height: 5rem;
 }
 
-input:focus {
+input:focus, textarea:focus {
   display: flex;
   outline: solid 2px var(--color);
 }
@@ -609,7 +609,7 @@ button#back, button#openModal {
 }
 
 #date, #time, #street, #city {
-  width: 50%;
+  width: 100%;
 }
 
 #state {

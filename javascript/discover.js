@@ -330,6 +330,26 @@ socket.onclose = (event) => {
 
     box.append(titleEl, infoEl, codeEl, btnEl);
     errors.appendChild(box);
+  } else {
+    const box = document.createElement('div');
+    box.classList.add('error-box');
+
+    const infoEl = document.createElement('div');
+    infoEl.classList.add('error-info');
+    infoEl.appendChild(document.createTextNode("Connection lost. Visible events are stashed. Try "));
+
+    const reloadLink = document.createElement('a');
+    reloadLink.href = "#";
+    reloadLink.innerText = "reloading the page";
+    reloadLink.onclick = (e) => {
+      e.preventDefault(); window.location.reload();
+    };
+
+    infoEl.appendChild(reloadLink);
+    infoEl.appendChild(document.createTextNode("."));
+
+    box.appendChild(infoEl); 
+    errors.prepend(box);
   }
 };
 
