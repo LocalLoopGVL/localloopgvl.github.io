@@ -21,6 +21,8 @@ const viewLocation = document.getElementById('viewLocation');
 const viewDescription = document.getElementById('viewDescription');
 const viewCompany = document.getElementById('viewCompany');
 
+window.allEvents = [];
+
 /* ---------------- WEBSOCKET ---------------- */
 const socket = new WebSocket('wss://carly-vaned-christiana.ngrok-free.dev');
 
@@ -67,8 +69,28 @@ socket.addEventListener('message', (event) => {
   const message = JSON.parse(event.data);
 
   if (message.type === 'session_invalid') {
+    localStorage.removeItem('userId');
     localStorage.removeItem('loginId');
     accessModal.classList.remove('hidden');
+  }
+  
+  if (message.type === 'session_valid') {
+    localStorage.setItem('userId', message.userId);
+    window.signedUpEvents = message.signedUpEvents || [];
+
+    document.querySelectorAll('.event-box').forEach(box => {
+      const eventId = box.dataset.id;
+      const btn = box.querySelector('.event-interest');
+      if (!btn) return;
+
+      if (window.signedUpEvents?.includes(eventId)) {
+        btn.innerText = "Cancel Reminder";
+        btn.classList.add('cancelled');
+      } else {
+        btn.innerText = "Remind Me";
+        btn.classList.remove('cancelled');
+      }
+    });
   }
 
   if (message.type === 'success') {
@@ -81,6 +103,8 @@ socket.addEventListener('message', (event) => {
   }
 
   if (message.type === 'init') {
+    window.allEvents = message.events;
+
     message.events
       .sort((a, b) => Number(b.time) - Number(a.time))
       .forEach(createEventBox);
@@ -95,6 +119,38 @@ socket.addEventListener('message', (event) => {
     sendBtn.disabled = false;
     sendBtn.innerText = "Send";
     accessModal.classList.remove('hidden');
+  }
+
+  if (message.type === 'remind_me_success') {
+    const eventId = message.eventId;
+
+    const box = document.querySelector(`.event-box[data-id="${eventId}"]`);
+    if (!box) return;
+
+    const btn = box.querySelector('.event-interest');
+    if (!btn) return;
+
+    btn.innerText = "Cancel Reminder";
+    btn.classList.add('cancelled');
+
+    if (!window.signedUpEvents) window.signedUpEvents = [];
+    window.signedUpEvents.push(eventId);
+  }
+
+  if (message.type === 'cancel_reminder_success') {
+    const eventId = message.eventId;
+
+    const box = document.querySelector(`.event-box[data-id="${eventId}"]`);
+    if (!box) return;
+
+    const btn = box.querySelector('.event-interest');
+    if (!btn) return;
+
+    btn.innerText = "Remind Me";
+    btn.classList.remove('cancelled');
+
+    window.signedUpEvents = window.signedUpEvents
+      .filter(id => id !== eventId);
   }
 });
 
@@ -146,8 +202,38 @@ function createEventBox(data) {
   companyEl.innerText = 'Hosted by: ' + data.company;
 
   const interestEl = document.createElement('button');
+  if (window.signedUpEvents?.includes(data.id)) {
+    interestEl.innerText = "Cancel Reminder";
+    interestEl.classList.add('cancelled');
+  } else {
+    interestEl.innerText = "Remind Me";
+    interestEl.classList.remove('cancelled');
+  }
+
+  interestEl.addEventListener('click', (e) => {
+    e.stopPropagation();
+
+    const loginId = localStorage.getItem('loginId');
+    const userId = localStorage.getItem('userId');
+
+    if (!loginId) {
+      accessModal.classList.remove('hidden');
+      return;
+    }
+
+    const isSignedUp = window.signedUpEvents?.includes(data.id);
+
+    socket.send(JSON.stringify({
+      type: isSignedUp ? 'cancel_reminder' : 'remind_me',
+      eventId: data.id,
+      loginId,
+      userId
+    }));
+
+    interestEl.innerText = isSignedUp ? "Cancelling..." : "Setting...";
+  });
+
   interestEl.classList.add('event-interest');
-  interestEl.innerText = 'Remind Me';
 
   wrapper.append(nameEl, dateEl, locationEl, descEl, companyEl);
   wrapper.classList.add('wrapper');

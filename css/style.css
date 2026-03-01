@@ -496,10 +496,13 @@ button#back, button#openModal {
   padding: 15px 15px;
   border: none;
   border-radius: 0;
-  cursor: not-allowed;
+  cursor: pointer;
   width: 100%;
-  opacity: 0.5;
   border-top: solid 1px var(--divider);
+}
+
+.event-interest.cancelled {
+  color: #E92C2C;
 }
 
 .event-interest:hover {
