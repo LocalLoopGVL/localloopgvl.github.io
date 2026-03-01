@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="20" height="20">
+	<style>
+		.s0 { fill: #eeeeee } 
+		.s1 { fill: #808080 } 
+	</style>
+	<path id="Shape 2" fill-rule="evenodd" class="s0" d="m400 0v400h-400v-400z"/>
+	<path id="Shape 1" fill-rule="evenodd" class="s1" d="m199.5 273c-48.39 0-87.5-39.11-87.5-87.5 0-48.39 39.11-87.5 87.5-87.5 48.39 0 87.5 39.11 87.5 87.5 0 48.39-39.11 87.5-87.5 87.5z"/>
+	<path id="Shape 1 copy" fill-rule="evenodd" class="s1" d="m200 585c-82.95 0-150-67.05-150-150 0-82.95 67.05-150 150-150 82.95 0 150 67.05 150 150 0 82.95-67.05 150-150 150z"/>
+</svg>
