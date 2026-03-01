@@ -28,10 +28,10 @@ const socket = new WebSocket('wss://carly-vaned-christiana.ngrok-free.dev');
 
 /* ---------------- UI ---------------- */
 openModalBtn.addEventListener('click', () => {
-  const loginId = localStorage.getItem('loginId');
+  const sessionId = localStorage.getItem('sessionId');
   const userId = localStorage.getItem('userId');
 
-  if (!loginId || !userId) {
+  if (!sessionId || !userId) {
     accessModal.classList.remove('hidden');
     return;
   }
@@ -54,12 +54,14 @@ description.addEventListener('input', () => {
 
 /* ---------------- SESSION VALIDATION ---------------- */
 socket.addEventListener('open', () => {
-  const loginId = localStorage.getItem('loginId');
+  const sessionId = localStorage.getItem('sessionId');
+  const userId = localStorage.getItem('userId');
 
-  if (loginId) {
+  if (sessionId) {
     socket.send(JSON.stringify({
       type: 'validate_session',
-      loginId
+      sessionId,
+      userId
     }));
   }
 });
@@ -70,7 +72,7 @@ socket.addEventListener('message', (event) => {
 
   if (message.type === 'session_invalid') {
     localStorage.removeItem('userId');
-    localStorage.removeItem('loginId');
+    localStorage.removeItem('sessionId');
     accessModal.classList.remove('hidden');
   }
   
@@ -213,10 +215,10 @@ function createEventBox(data) {
   interestEl.addEventListener('click', (e) => {
     e.stopPropagation();
 
-    const loginId = localStorage.getItem('loginId');
+    const sessionId = localStorage.getItem('sessionId');
     const userId = localStorage.getItem('userId');
 
-    if (!loginId) {
+    if (!sessionId) {
       accessModal.classList.remove('hidden');
       return;
     }
@@ -226,7 +228,7 @@ function createEventBox(data) {
     socket.send(JSON.stringify({
       type: isSignedUp ? 'cancel_reminder' : 'remind_me',
       eventId: data.id,
-      loginId,
+      sessionId,
       userId
     }));
 
@@ -245,7 +247,7 @@ function createEventBox(data) {
 /* ---------------- CREATE EVENT ---------------- */
 eventForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  const loginId = localStorage.getItem('loginId');
+  const sessionId = localStorage.getItem('sessionId');
   const userId = localStorage.getItem('userId');
   const dateVal = document.getElementById('date').value;
   const timeVal = document.getElementById('time').value;
@@ -267,7 +269,7 @@ eventForm.addEventListener('submit', (e) => {
 
   if (hasErrors) return;
 
-  if (!loginId || !userId) {
+  if (!sessionId || !userId) {
     accessModal.classList.remove('hidden');
     return;
   }
@@ -278,7 +280,7 @@ eventForm.addEventListener('submit', (e) => {
 
   const data = {
     type: 'create_event',
-    loginId,
+    sessionId,
     userId,
     name: document.getElementById('name').value,
     time: unixTime,

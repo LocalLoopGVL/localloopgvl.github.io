@@ -505,6 +505,22 @@ button#back, button#openModal {
   color: #E92C2C;
 }
 
+.event-edit {
+  font-size: 16px;
+  padding: 12px;
+  text-align: left;
+  padding: 0;
+  background: var(--item);
+  color: var(--color);
+  padding: 15px 15px;
+  border: none;
+  border-radius: 0;
+  cursor:not-allowed;
+  width: 100%;
+  border-top: solid 1px var(--divider);
+  opacity: 0.5;
+}
+
 .event-interest:hover {
   background: var(--item-hover);
 }
@@ -789,6 +805,16 @@ button#back, button#openModal {
 }
 
 /* Account Page */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.account-photo {
+  border-radius: 50%;
+}
+
 .my-events {
   max-width: 700px;
   width: 100%;
@@ -817,8 +843,6 @@ button#back, button#openModal {
   border-radius: 12px;
   margin: 30px auto 0 auto;
   width: 90%;
-  opacity: var(--opacity);
-  animation: fadeIn 1s ease forwards;
 }
 
 .dark #logout {

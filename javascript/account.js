@@ -35,9 +35,10 @@ const socket = new WebSocket('wss://carly-vaned-christiana.ngrok-free.dev');
 
 /* ---------------- SESSION VALIDATION ---------------- */
 socket.addEventListener('open', () => {
-  const loginId = localStorage.getItem('loginId');
-  if (loginId) {
-    socket.send(JSON.stringify({ type: 'validate_session', loginId }));
+  const sessionId = localStorage.getItem('sessionId');
+  const userId = localStorage.getItem('userId'); // the account id
+  if (sessionId && userId) {
+    socket.send(JSON.stringify({ type: 'validate_session', sessionId, userId }));
   } else {
     loginForm.classList.remove('hidden');
   }
@@ -54,7 +55,7 @@ loginForm.addEventListener('submit', (e) => {
     return;
   }
 
-  setError(loginError, ''); // clear previous errors
+  setError(loginError, '');
   socket.send(JSON.stringify({ type: 'login', email, password }));
 });
 
@@ -136,11 +137,11 @@ backToLogin.addEventListener('click', () => {
 
 /* ---------------- LOGOUT ---------------- */
 logoutBtn.addEventListener('click', () => {
-  const loginId = localStorage.getItem('loginId');
-  if (!loginId) return;
+  const sessionId = localStorage.getItem('sessionId');
+  if (!sessionId) return;
 
-  socket.send(JSON.stringify({ type: 'logout', loginId }));
-  localStorage.removeItem('loginId');
+  socket.send(JSON.stringify({ type: 'logout', sessionId }));
+  localStorage.removeItem('sessionId');
   localStorage.removeItem('userId');
 
   loggedInMsg.classList.add('hidden');
@@ -158,7 +159,7 @@ socket.addEventListener('message', (event) => {
     signupForm.classList.add('hidden');
     loggedInMsg.classList.remove('hidden');
     logoutBtn.classList.remove('hidden');
-    loggedInText.innerText = `You're logged in as ${message.email}`;
+    loggedInText.innerText = `${message.email}`;
     if (message.events && message.events.length !== 0) {
       myEvents.classList.remove('hidden');
       message.events
@@ -168,7 +169,7 @@ socket.addEventListener('message', (event) => {
   }
 
   if (message.type === 'session_invalid') {
-    localStorage.removeItem('loginId');
+    localStorage.removeItem('sessionId');
     loggedInMsg.classList.add('hidden');
     logoutBtn.classList.add('hidden');
     myEvents.classList.add('hidden');
@@ -177,7 +178,7 @@ socket.addEventListener('message', (event) => {
   }
 
   if (message.type === 'account_success') {
-    localStorage.setItem('loginId', message.loginId);
+    localStorage.setItem('sessionId', message.sessionId);
     localStorage.setItem('userId', message.userId);
     localStorage.removeItem('signUpMode');
     localStorage.removeItem('signUpEmail');
@@ -236,7 +237,7 @@ function createEventBox(data) {
   dividerEl.classList.add('divider');
 
   const editEl = document.createElement('button');
-  editEl.classList.add('event-interest');
+  editEl.classList.add('event-edit');
   editEl.innerText = 'Edit Event';
 
   wrapper.append(nameEl, locationEl, descEl, companyEl);
