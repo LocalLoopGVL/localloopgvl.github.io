@@ -9,6 +9,10 @@ const accessModal = document.getElementById('accessModal');
 const closeAccessBtn = document.getElementById('closeAccess');
 const description = document.getElementById('description');
 
+const errorModal = document.getElementById('errorModal');
+const closeErrorBtn = document.getElementById('closeError');
+const errorText = document.getElementById('errorText');
+
 const sendBtn = document.getElementById('send');
 const errors = document.getElementById('errors');
 
@@ -45,6 +49,10 @@ closeModalBtn.addEventListener('click', () => {
 
 closeAccessBtn.addEventListener('click', () => {
   accessModal.classList.add('hidden');
+});
+
+closeErrorBtn.addEventListener('click', () => {
+  errorModal.classList.add('hidden');
 });
 
 description.addEventListener('input', () => {
@@ -126,6 +134,8 @@ socket.addEventListener('message', (event) => {
     modalOverlay.classList.add('hidden');
     sendBtn.disabled = false;
     sendBtn.innerText = "Send";
+    errorModal.classList.remove('hidden');
+    errorText.innerText = message.message || "An unknown error occurred. Please try again.";
   }
 
   if (message.type === 'remind_me_success') {
