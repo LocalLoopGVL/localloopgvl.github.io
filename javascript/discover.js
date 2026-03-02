@@ -75,6 +75,12 @@ socket.addEventListener('message', (event) => {
     localStorage.removeItem('sessionId');
     accessModal.classList.remove('hidden');
   }
+
+  if (message.type === 'account_error') {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('sessionId');
+    accessModal.classList.remove('hidden');
+  }
   
   if (message.type === 'session_valid') {
     localStorage.setItem('userId', message.userId);
@@ -120,7 +126,6 @@ socket.addEventListener('message', (event) => {
     modalOverlay.classList.add('hidden');
     sendBtn.disabled = false;
     sendBtn.innerText = "Send";
-    accessModal.classList.remove('hidden');
   }
 
   if (message.type === 'remind_me_success') {

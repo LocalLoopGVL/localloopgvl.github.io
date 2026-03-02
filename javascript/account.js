@@ -177,6 +177,16 @@ socket.addEventListener('message', (event) => {
     signupForm.classList.add('hidden');
   }
 
+  if (message.type === 'account_error') {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('sessionId');
+    loggedInMsg.classList.add('hidden');
+    logoutBtn.classList.add('hidden');
+    myEvents.classList.add('hidden');
+    loginForm.classList.remove('hidden');
+    signupForm.classList.add('hidden');
+  }
+
   if (message.type === 'account_success') {
     localStorage.setItem('sessionId', message.sessionId);
     localStorage.setItem('userId', message.userId);
