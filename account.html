@@ -35,7 +35,7 @@
   <!-- Layout -->
   <div class="ui" id="ui">
     <button id="back" class="mobile-back" aria-label="Go back">
-      <img src="/assets/back_arrow.svg" alt="">
+      <img src="/assets/back_arrow.svg" alt="" viewBox="0 0 40 40">
     </button>
   </div>
 
@@ -97,6 +97,14 @@
       </div>
       <button type="button" id="logout" class="hidden">Sign out</button>
     </main>
+  </div>
+
+  <div id="errorModal" class="modal-overlay hidden" role="alertdialog" aria-modal="true">
+    <div class="accessModal">
+      <h2 class="modalTitle">Error</h2>
+      <p id="errorText"> You need to log in to access certian features. </p>
+      <button id="closeError">Close</button>
+    </div>
   </div>
 
   <script src="/javascript/account.js"></script>

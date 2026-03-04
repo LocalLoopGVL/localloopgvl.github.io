@@ -19,6 +19,9 @@ const myEvents = document.getElementById('myEvents');
 const output = document.getElementById('output');
 const signUpText = document.getElementById('signUpText')
 
+const errorModal = document.getElementById('errorModal');
+const closeErrorBtn = document.getElementById('closeError');
+const errorText = document.getElementById('errorText');
 
 /* ---------------- ERROR HELPER ---------------- */
 function setError(element, message) {
@@ -29,6 +32,10 @@ function setError(element, message) {
     element.classList.add('hidden');
   }
 }
+
+closeErrorBtn.addEventListener('click', () => {
+  errorModal.classList.add('hidden');
+});
 
 /* ---------------- WEBSOCKET ---------------- */
 const socket = new WebSocket('wss://carly-vaned-christiana.ngrok-free.dev');
@@ -177,16 +184,6 @@ socket.addEventListener('message', (event) => {
     signupForm.classList.add('hidden');
   }
 
-  if (message.type === 'account_error') {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('sessionId');
-    loggedInMsg.classList.add('hidden');
-    logoutBtn.classList.add('hidden');
-    myEvents.classList.add('hidden');
-    loginForm.classList.remove('hidden');
-    signupForm.classList.add('hidden');
-  }
-
   if (message.type === 'account_success') {
     localStorage.setItem('sessionId', message.sessionId);
     localStorage.setItem('userId', message.userId);
@@ -202,6 +199,11 @@ socket.addEventListener('message', (event) => {
     } else {
       setError(signupError, message.message);
     }
+  }
+
+  if (message.type === 'error') {
+    errorModal.classList.remove('hidden');
+    errorText.innerText = message.message || "An unknown error occurred. Please try again.";
   }
 
   if (message.type === 'verification_required') {
@@ -247,12 +249,37 @@ function createEventBox(data) {
   dividerEl.classList.add('divider');
 
   const editEl = document.createElement('button');
-  editEl.classList.add('event-edit');
+  editEl.classList.add('event-btn');
+  editEl.classList.add('edit');
   editEl.innerText = 'Edit Event';
+
+  const cancelEl = document.createElement('button');
+  cancelEl.addEventListener('click', () => {
+    const sessionId = localStorage.getItem('sessionId');
+    const userId = localStorage.getItem('userId');
+    const eventId = data.id;
+
+    if (!sessionId || !userId) {
+      setError(errors, 'You must be logged in to cancel an event.');
+      return;
+    }
+
+    socket.send(JSON.stringify({
+      type: 'cancel_event',
+      sessionId,
+      userId,
+      eventId
+    }));
+
+    cancelEl.innerText = 'Cancelling...';
+  });
+  cancelEl.classList.add('event-btn');
+  cancelEl.classList.add('cancel');
+  cancelEl.innerText = 'Cancel Event';
 
   wrapper.append(nameEl, locationEl, descEl, companyEl);
   wrapper.classList.add('wrapper');
-  box.append(wrapper, dividerEl, editEl);
+  box.append(wrapper, dividerEl, editEl, cancelEl);
 
   output.append(box);
 }

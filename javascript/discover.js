@@ -96,15 +96,15 @@ socket.addEventListener('message', (event) => {
 
     document.querySelectorAll('.event-box').forEach(box => {
       const eventId = box.dataset.id;
-      const btn = box.querySelector('.event-interest');
+      const btn = box.querySelector('.event-btn');
       if (!btn) return;
 
       if (window.signedUpEvents?.includes(eventId)) {
         btn.innerText = "Cancel Reminder";
-        btn.classList.add('cancelled');
+        btn.classList.add('cancel');
       } else {
         btn.innerText = "Remind Me";
-        btn.classList.remove('cancelled');
+        btn.classList.remove('cancel');
       }
     });
   }
@@ -144,11 +144,11 @@ socket.addEventListener('message', (event) => {
     const box = document.querySelector(`.event-box[data-id="${eventId}"]`);
     if (!box) return;
 
-    const btn = box.querySelector('.event-interest');
+    const btn = box.querySelector('.event-btn');
     if (!btn) return;
 
     btn.innerText = "Cancel Reminder";
-    btn.classList.add('cancelled');
+    btn.classList.add('cancel');
 
     if (!window.signedUpEvents) window.signedUpEvents = [];
     window.signedUpEvents.push(eventId);
@@ -160,11 +160,11 @@ socket.addEventListener('message', (event) => {
     const box = document.querySelector(`.event-box[data-id="${eventId}"]`);
     if (!box) return;
 
-    const btn = box.querySelector('.event-interest');
+    const btn = box.querySelector('.event-btn');
     if (!btn) return;
 
     btn.innerText = "Remind Me";
-    btn.classList.remove('cancelled');
+    btn.classList.remove('cancel');
 
     window.signedUpEvents = window.signedUpEvents
       .filter(id => id !== eventId);
@@ -221,10 +221,10 @@ function createEventBox(data) {
   const interestEl = document.createElement('button');
   if (window.signedUpEvents?.includes(data.id)) {
     interestEl.innerText = "Cancel Reminder";
-    interestEl.classList.add('cancelled');
+    interestEl.classList.add('cancel');
   } else {
     interestEl.innerText = "Remind Me";
-    interestEl.classList.remove('cancelled');
+    interestEl.classList.remove('cancel');
   }
 
   interestEl.addEventListener('click', (e) => {
@@ -250,7 +250,7 @@ function createEventBox(data) {
     interestEl.innerText = isSignedUp ? "Cancelling..." : "Setting...";
   });
 
-  interestEl.classList.add('event-interest');
+  interestEl.classList.add('event-btn');
 
   wrapper.append(nameEl, dateEl, locationEl, descEl, companyEl);
   wrapper.classList.add('wrapper');
@@ -372,7 +372,7 @@ socket.onclose = (event) => {
 output.addEventListener('click', (e) => {
   const box = e.target.closest('.event-box');
   if (!box) return;
-  if (e.target.closest('.event-interest')) return;
+  if (e.target.closest('.event-btn')) return;
 
   const data = JSON.parse(box.dataset.event);
 

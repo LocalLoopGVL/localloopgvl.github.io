@@ -297,6 +297,7 @@ button#back, button#openModal {
   z-index: 2;
   cursor: pointer;
   font-size: 25px;
+  flex-shrink: 0;
 }
 
 .dark .add-event {
@@ -486,7 +487,7 @@ button#back, button#openModal {
   opacity: 0.4;
 }
 
-.event-interest {
+.event-btn {
   font-size: 16px;
   padding: 12px;
   text-align: left;
@@ -505,23 +506,7 @@ button#back, button#openModal {
   color: #E92C2C;
 }
 
-.event-edit {
-  font-size: 16px;
-  padding: 12px;
-  text-align: left;
-  padding: 0;
-  background: var(--item);
-  color: var(--color);
-  padding: 15px 15px;
-  border: none;
-  border-radius: 0;
-  cursor:not-allowed;
-  width: 100%;
-  border-top: solid 1px var(--divider);
-  opacity: 0.5;
-}
-
-.event-interest:hover {
+.event-btn:hover {
   background: var(--item-hover);
 }
 
@@ -719,6 +704,7 @@ button#back, button#openModal {
     z-index: 2;
     cursor: pointer;
     font-size: 30px;
+    flex-shrink: 0;
   }
 
   .dark .mobile-back {
@@ -743,6 +729,10 @@ button#back, button#openModal {
     transform: translateY(200px);
     animation: enter 0.2s ease forwards;
     z-index: 3;
+  }
+
+  .my-events-grid {
+    gap: 10px !important;
   }
 }
 
@@ -853,4 +843,13 @@ button#back, button#openModal {
 
 #logout:hover {
   background-color: var(--active-hover);
+}
+
+.edit {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.cancel {
+  color: #E92C2C;
 }
