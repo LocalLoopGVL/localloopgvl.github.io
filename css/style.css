@@ -298,6 +298,7 @@ button#back, button#openModal {
   cursor: pointer;
   font-size: 25px;
   flex-shrink: 0;
+  flex: 0 0 20px;
 }
 
 .dark .add-event {
@@ -705,6 +706,7 @@ button#back, button#openModal {
     cursor: pointer;
     font-size: 30px;
     flex-shrink: 0;
+    flex: 0 0 20px;
   }
 
   .dark .mobile-back {
