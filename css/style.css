@@ -29,7 +29,7 @@ input[type="number"]::-webkit-outer-spin-button {
   --active: #ebebeb;
   --active-hover: #dcdcdc;
   --input: #e8e8e8;
-  --divider: #dedede
+  --divider: #dedede;
   --toggle: #e5e5e5;
   --motion: 0.3s ease;
   --filter: blur(15px);
@@ -267,6 +267,7 @@ span#active:hover {
 .ui {
   overflow: hidden;
   width: 20px;
+  right: 20px;
   top: 20px;
   height: 20px;
   position: fixed;
@@ -689,7 +690,6 @@ button#back, button#openModal {
     width: calc(100vw - 40px);
     margin: 20px 20px;
     transform: translateX(100vw);
-
   }
 
   .mobile-back {
