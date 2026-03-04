@@ -448,6 +448,22 @@ button#back, button#openModal {
   overflow: hidden;
 }
 
+.event-box:hover {
+  scale: 1.02;
+  transform: translateY(3px);
+  box-shadow: 0px 0px 20px var(--divider);
+}
+
+.dark .event-box:hover {
+  box-shadow: none;
+}
+
+.event-box:active {
+  scale: 1 !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
 @keyframes fadeIn {
   to {
     opacity: 1;
@@ -728,6 +744,12 @@ button#back, button#openModal {
 
   .my-events-grid {
     gap: 10px !important;
+  }
+  
+  .event-box:hover {
+    scale: 1.01;
+    transform: translateY(1px);
+    box-shadow: 0px 0px 20px var(--divider);
   }
 }
 
