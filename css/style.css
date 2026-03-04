@@ -29,7 +29,7 @@ input[type="number"]::-webkit-outer-spin-button {
   --active: #ebebeb;
   --active-hover: #dcdcdc;
   --input: #e8e8e8;
-  --divider: #dedede;
+  --divider: #dedede
   --toggle: #e5e5e5;
   --motion: 0.3s ease;
   --filter: blur(15px);
@@ -267,7 +267,6 @@ span#active:hover {
 .ui {
   overflow: hidden;
   width: 20px;
-  right: 20px;
   top: 20px;
   height: 20px;
   position: fixed;
@@ -289,14 +288,11 @@ button#back, button#openModal {
 }
 
 .add-event {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 20px;
-  height: 20px;
+  display: block;
+  width: auto;
+  height: 100%;
   z-index: 2;
   cursor: pointer;
-  font-size: 25px;
   flex-shrink: 0;
   flex: 0 0 20px;
 }
@@ -697,14 +693,11 @@ button#back, button#openModal {
   }
 
   .mobile-back {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 20px;
-    height: 20px;
+    display: block;
+    width: auto;
+    height: 100%;
     z-index: 2;
     cursor: pointer;
-    font-size: 30px;
     flex-shrink: 0;
     flex: 0 0 20px;
   }
