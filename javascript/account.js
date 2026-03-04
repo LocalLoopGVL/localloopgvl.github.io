@@ -218,12 +218,25 @@ socket.addEventListener('message', (event) => {
   
     setError(signupError, 'Enter the code sent to your email.');
   }
+  
+  if (message.type === 'cancel_event_success') {
+    const eventId = String(message.eventId);
+  
+    const eventEl = document.querySelector(
+      `.event-box[data-event-id="${eventId}"]`
+    );
+  
+    if (eventEl) {
+      eventEl.remove();
+    }
+  }
 });
 
 /* ---------------- ACCOUNT EVENTS ---------------- */
 function createEventBox(data) {
   const box = document.createElement('div');
   box.classList.add('event-box');
+  box.dataset.eventId = data.id;
 
   const wrapper = document.createElement('div');
   box.dataset.id = data.id;
@@ -254,27 +267,56 @@ function createEventBox(data) {
   editEl.innerText = 'Edit Event';
 
   const cancelEl = document.createElement('button');
+
+  let confirmState = false;
+  let countdown = 3;
+  let countdownInterval = null;
+  
   cancelEl.addEventListener('click', () => {
+    if (!confirmState) {
+      confirmState = true;
+      countdown = 3;
+      cancelEl.disabled = true;
+      cancelEl.innerText = `Are you sure? ${countdown}`;
+  
+      countdownInterval = setInterval(() => {
+        countdown--;
+        if (countdown > 0) {
+          cancelEl.innerText = `Are you sure? ${countdown}`;
+        } else {
+          clearInterval(countdownInterval);
+          cancelEl.disabled = false;
+          cancelEl.innerText = 'Click to confirm';
+        }
+      }, 1000);
+  
+      return;
+    }
+  
+    // Confirmed click
     const sessionId = localStorage.getItem('sessionId');
     const userId = localStorage.getItem('userId');
     const eventId = data.id;
-
+  
     if (!sessionId || !userId) {
       setError(errors, 'You must be logged in to cancel an event.');
+      confirmState = false;
+      cancelEl.innerText = 'Cancel Event';
       return;
     }
-
+  
     socket.send(JSON.stringify({
       type: 'cancel_event',
       sessionId,
       userId,
       eventId
     }));
-
+  
     cancelEl.innerText = 'Cancelling...';
+    cancelEl.disabled = true;
   });
-  cancelEl.classList.add('event-btn');
-  cancelEl.classList.add('cancel');
+  
+  cancelEl.classList.add('event-btn', 'cancel');
   cancelEl.innerText = 'Cancel Event';
 
   wrapper.append(nameEl, locationEl, descEl, companyEl);
