@@ -98,7 +98,8 @@ socket.addEventListener('message', (event) => {
       const eventId = box.dataset.id;
       const btn = box.querySelector('.event-btn');
       if (!btn) return;
-
+      if (btn.disabled) return;
+      
       if (window.signedUpEvents?.includes(eventId)) {
         btn.innerText = "Cancel Reminder";
         btn.classList.add('cancel');
@@ -169,6 +170,30 @@ socket.addEventListener('message', (event) => {
     window.signedUpEvents = window.signedUpEvents
       .filter(id => id !== eventId);
   }
+
+  if (message.type === 'event_starting_soon') {
+    const eventId = message.eventId;
+
+    const box = document.querySelector(`.event-box[data-id="${eventId}"]`);
+    if (!box) return;
+
+    const btn = box.querySelector('.event-btn');
+    if (!btn) return;
+
+    btn.innerText = "Starting Soon!";
+    btn.disabled = true;
+    btn.classList.remove('cancel');
+    btn.classList.add('disabled');
+  }
+
+  if (message.type === 'event_expired') {
+    const eventId = message.eventId;
+
+    const box = document.querySelector(`.event-box[data-id="${eventId}"]`);
+    if (!box) return;
+
+    box.remove();
+  }
 });
 
 /* ---------------- DATE FORMAT ---------------- */
@@ -219,6 +244,7 @@ function createEventBox(data) {
   companyEl.innerText = 'Hosted by: ' + data.company;
 
   const interestEl = document.createElement('button');
+
   if (window.signedUpEvents?.includes(data.id)) {
     interestEl.innerText = "Cancel Reminder";
     interestEl.classList.add('cancel');

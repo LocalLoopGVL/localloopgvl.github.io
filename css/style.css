@@ -516,12 +516,16 @@ button#back, button#openModal {
   border-top: solid 1px var(--divider);
 }
 
-.event-interest.cancelled {
-  color: #E92C2C;
-}
-
 .event-btn:hover {
   background: var(--item-hover);
+}
+
+.event-btn.disabled{
+  color: var(--text);
+}
+
+.event-btn.disabled:hover{
+  background: var(--item);
 }
 
 /* Event Expanded Styles */
