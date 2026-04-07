@@ -25,10 +25,14 @@ const viewLocation = document.getElementById('viewLocation');
 const viewDescription = document.getElementById('viewDescription');
 const viewCompany = document.getElementById('viewCompany');
 
+const HEARTBEAT_INTERVAL = 30000;
+
+let heartbeatInterval;
+
 window.allEvents = [];
 
 /* ---------------- WEBSOCKET ---------------- */
-const socket = new WebSocket('wss://carly-vaned-christiana.ngrok-free.dev');
+const socket = new WebSocket('wss://localloop.ngrok.io');
 
 /* ---------------- UI ---------------- */
 openModalBtn.addEventListener('click', () => {
@@ -72,6 +76,12 @@ socket.addEventListener('open', () => {
       userId
     }));
   }
+  
+  heartbeatInterval = setInterval(() => {
+    if (socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({ type: 'heartbeat' }));
+    }
+  }, HEARTBEAT_INTERVAL);
 });
 
 /* ---------------- MESSAGE HANDLER ---------------- */
@@ -423,4 +433,9 @@ modalShades.forEach((shade) => {
       shade.classList.add('hidden');
     }
   });
+});
+
+/* ---------------- HEARTBEAT ---------------- */
+socket.addEventListener('close', () => {
+  clearInterval(heartbeatInterval);
 });
