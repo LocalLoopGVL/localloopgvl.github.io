@@ -23,6 +23,10 @@ const errorModal = document.getElementById('errorModal');
 const closeErrorBtn = document.getElementById('closeError');
 const errorText = document.getElementById('errorText');
 
+const HEARTBEAT_INTERVAL = 30000;
+
+let heartbeatInterval;
+
 /* ---------------- ERROR HELPER ---------------- */
 function setError(element, message) {
   element.innerText = message;
@@ -38,7 +42,7 @@ closeErrorBtn.addEventListener('click', () => {
 });
 
 /* ---------------- WEBSOCKET ---------------- */
-const socket = new WebSocket('wss://carly-vaned-christiana.ngrok-free.dev');
+const socket = new WebSocket('wss://localloop.ngrok.io');
 
 /* ---------------- SESSION VALIDATION ---------------- */
 socket.addEventListener('open', () => {
@@ -49,6 +53,12 @@ socket.addEventListener('open', () => {
   } else {
     loginForm.classList.remove('hidden');
   }
+
+  heartbeatInterval = setInterval(() => {
+    if (socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({ type: 'heartbeat' }));
+    }
+  }, HEARTBEAT_INTERVAL);
 });
 
 /* ---------------- LOGIN ---------------- */
@@ -348,3 +358,8 @@ socket.onclose = (event) => {
   loginForm.classList.add('hidden');
   signupForm.classList.add('hidden');
 };
+
+/* ---------------- HEARTBEAT ---------------- */
+socket.addEventListener('close', () => {
+  clearInterval(heartbeatInterval); // stop heartbeat on close
+});
